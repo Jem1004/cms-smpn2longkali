@@ -20,7 +20,7 @@ export async function generatePresignedUrl(
 
   const sanitizedFilename = filename.replace(/[^a-zA-Z0-9._-]/g, "_")
   // Store files in cms-sekolah folder to keep organized in shared bucket
-  const key = `cms-sekolah/uploads/${Date.now()}-${randomUUID()}-${sanitizedFilename}`
+  const key = `cms-smpn3ppu/uploads/${Date.now()}-${randomUUID()}-${sanitizedFilename}`
 
   const command = new PutObjectCommand({
     Bucket: bucket,
