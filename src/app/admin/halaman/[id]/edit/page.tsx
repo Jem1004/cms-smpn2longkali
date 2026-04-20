@@ -3,7 +3,7 @@ import { getPageById } from "@/actions/page"
 import { PageForm } from "@/components/admin/page-form"
 
 export const metadata = {
-  title: "Edit Halaman — Admin SMKN 1 Surabaya",
+  title: "Edit Halaman — Admin",
 }
 
 interface EditPageProps {

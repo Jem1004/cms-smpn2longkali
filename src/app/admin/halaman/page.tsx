@@ -2,7 +2,7 @@ import { getPages } from "@/actions/page"
 import { PageList } from "@/components/admin/page-list"
 
 export const metadata = {
-  title: "Halaman — Admin SMKN 1 Surabaya",
+  title: "Halaman — Admin",
   description: "Kelola halaman kustom website",
 }
 

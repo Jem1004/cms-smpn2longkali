@@ -2,7 +2,7 @@ import { getStaffList } from "@/actions/staff"
 import { StaffManager } from "@/components/admin/staff-manager"
 
 export const metadata = {
-  title: "Data Guru — Admin SMKN 1 Surabaya",
+  title: "Data Guru — Admin",
   description: "Kelola data guru dan tenaga kependidikan",
 }
 

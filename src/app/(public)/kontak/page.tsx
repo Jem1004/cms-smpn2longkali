@@ -4,6 +4,8 @@ import { getSiteSettings } from "@/lib/queries"
 import { MapPin, Phone, Mail } from "lucide-react"
 import { KontakForm } from "./kontak-form"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Kontak & Pengaduan",
   description: "Hubungi kami atau sampaikan pengaduan melalui WhatsApp.",

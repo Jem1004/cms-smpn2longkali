@@ -2,7 +2,7 @@ import { getUsers } from "@/actions/user"
 import { UserManager } from "@/components/admin/user-manager"
 
 export const metadata = {
-  title: "Pengguna — Admin SMKN 1 Surabaya",
+  title: "Pengguna — Admin",
   description: "Kelola akun pengguna dan staf admin",
 }
 

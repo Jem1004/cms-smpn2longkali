@@ -6,7 +6,7 @@ import { ArticleList } from "@/components/admin/article-list"
 import type { SessionWithRole } from "@/types"
 
 export const metadata = {
-  title: "Berita — Admin SMKN 1 Surabaya",
+  title: "Berita — Admin",
   description: "Kelola artikel berita sekolah",
 }
 

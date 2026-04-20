@@ -5,7 +5,7 @@ import { ArticleForm } from "@/components/admin/article-form"
 import type { SessionWithRole } from "@/types"
 
 export const metadata = {
-  title: "Buat Artikel — Admin SMKN 1 Surabaya",
+  title: "Buat Artikel — Admin",
   description: "Buat artikel berita baru",
 }
 

@@ -2,7 +2,7 @@ import { getGalleryImages } from "@/actions/gallery"
 import { GalleryManager } from "@/components/admin/gallery-manager"
 
 export const metadata = {
-  title: "Galeri — Admin SMKN 1 Surabaya",
+  title: "Galeri — Admin",
   description: "Kelola galeri foto sekolah",
 }
 

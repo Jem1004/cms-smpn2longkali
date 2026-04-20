@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/sonner"
 import type { SessionWithRole } from "@/types"
 
 export const metadata = {
-  title: "Admin — SMKN 1 Surabaya",
-  description: "Dashboard Admin CMS SMKN 1 Surabaya",
+  title: "Admin",
+  description: "Dashboard Admin CMS",
 }
 
 export default async function AdminLayout({
