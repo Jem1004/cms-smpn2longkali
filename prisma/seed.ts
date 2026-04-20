@@ -12,11 +12,11 @@ async function main() {
   // 1. Create default Super Admin account
   const hashedPassword = await bcrypt.hash("Admin123!", 12)
   const admin = await prisma.user.upsert({
-    where: { email: "admin@smkn1sby.sch.id" },
+    where: { email: "admin@astrodigiso-cms.com" },
     update: {},
     create: {
       name: "Super Admin",
-      email: "admin@smkn1sby.sch.id",
+      email: "admin@astrodigiso-cms.com",
       password: hashedPassword,
       role: "SUPER_ADMIN",
       isActive: true,
