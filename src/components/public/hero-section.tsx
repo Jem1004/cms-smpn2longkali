@@ -26,7 +26,7 @@ export async function HeroSection() {
   if (heroRecord) {
     const content = heroRecord.content as Record<string, unknown>
     // Support both old format (single slide) and new format (slides array)
-    if (Array.isArray((content as any).slides)) {
+    if (Array.isArray((content as Record<string, unknown>).slides)) {
       hero = content as unknown as HeroContent
     } else {
       // Migrate old single-slide format to new slides array

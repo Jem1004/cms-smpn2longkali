@@ -3,6 +3,24 @@ import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 import { authConfig } from "./auth.config"
+import type { JWT } from "next-auth/jwt"
+import type { Session } from "next-auth"
+
+interface ExtendedToken extends JWT {
+  role?: string
+  isActive?: boolean
+}
+
+interface ExtendedSession extends Session {
+  user: {
+    id: string
+    name?: string | null
+    email?: string | null
+    image?: string | null
+    role?: string
+    isActive?: boolean
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -25,11 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           where: { email },
         })
 
-        if (!user) {
-          return null
-        }
-
-        if (!user.isActive) {
+        if (!user || !user.isActive) {
           return null
         }
 
@@ -50,20 +64,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // On sign-in, persist role and isActive into the JWT
       if (user) {
         token.id = user.id
-        token.role = (user as any).role
-        token.isActive = (user as any).isActive
+        const extToken = token as ExtendedToken
+        extToken.role = (user as { role?: string }).role
+        extToken.isActive = (user as { isActive?: boolean }).isActive
       }
       return token
     },
     async session({ session, token }) {
-      // Expose role and id from JWT into the session object
-      if (token && session.user) {
-        session.user.id = token.id as string
-        ;(session.user as any).role = token.role
-        ;(session.user as any).isActive = token.isActive
+      const extToken = token as ExtendedToken
+      if (extToken && session.user) {
+        const extSession = session as ExtendedSession
+        extSession.user.id = extToken.id as string
+        extSession.user.role = extToken.role
+        extSession.user.isActive = extToken.isActive
       }
       return session
     },

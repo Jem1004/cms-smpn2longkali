@@ -31,7 +31,7 @@ export default auth((req) => {
     return NextResponse.redirect(loginUrl)
   }
 
-  const role = (session.user as any).role as string | undefined
+  const role = (session.user as { role?: string }).role
   const pathname = nextUrl.pathname
 
   // Check role-based route permissions
