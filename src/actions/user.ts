@@ -194,3 +194,46 @@ export async function resetPassword(
     return { success: false, error: "Terjadi kesalahan saat mereset password" }
   }
 }
+
+/**
+ * Delete a user permanently.
+ * Rejects if this is the last active SUPER_ADMIN.
+ * Rejects if user has articles (must reassign first).
+ */
+export async function deleteUser(id: string): Promise<ActionResult<null>> {
+  try {
+    await requirePermission("user:manage")
+
+    const user = await prisma.user.findUnique({ where: { id } })
+    if (!user) {
+      return { success: false, error: "Pengguna tidak ditemukan" }
+    }
+
+    // Prevent deleting last Super Admin
+    if (user.role === "SUPER_ADMIN") {
+      const superAdminCount = await prisma.user.count({
+        where: { role: "SUPER_ADMIN" },
+      })
+      if (superAdminCount <= 1) {
+        return { success: false, error: "Tidak dapat menghapus Super Admin terakhir" }
+      }
+    }
+
+    // Check if user has articles
+    const articleCount = await prisma.article.count({ where: { authorId: id } })
+    if (articleCount > 0) {
+      return {
+        success: false,
+        error: `Pengguna memiliki ${articleCount} artikel. Nonaktifkan saja atau hapus artikel terlebih dahulu.`,
+      }
+    }
+
+    await prisma.user.delete({ where: { id } })
+
+    revalidatePath("/admin/pengguna")
+    return { success: true, data: null }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan saat menghapus pengguna" }
+  }
+}

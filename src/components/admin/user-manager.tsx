@@ -8,6 +8,7 @@ import {
   KeyRound,
   Users,
   Copy,
+  Trash2,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -38,7 +39,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { createUser, deactivateUser, resetPassword } from "@/actions/user"
+import { createUser, deactivateUser, resetPassword, deleteUser } from "@/actions/user"
 
 // ─── Types ───────────────────────────────────────────────────────
 
@@ -104,6 +105,10 @@ export function UserManager({ users: initialUsers }: UserManagerProps) {
   // Temporary password result dialog
   const [tempPassword, setTempPassword] = useState<string | null>(null)
   const [tempPasswordUser, setTempPasswordUser] = useState<string>("")
+
+  // Delete dialog
+  const [deleteTarget, setDeleteTarget] = useState<UserItem | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   // ─── Create user ────────────────────────────────────────────
 
@@ -207,6 +212,25 @@ export function UserManager({ users: initialUsers }: UserManagerProps) {
     }
   }
 
+  async function handleDelete() {
+    if (!deleteTarget) return
+    setDeleting(true)
+    try {
+      const result = await deleteUser(deleteTarget.id)
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+      setUsers((prev) => prev.filter((u) => u.id !== deleteTarget.id))
+      toast.success("Pengguna berhasil dihapus")
+    } catch {
+      toast.error("Gagal menghapus pengguna")
+    } finally {
+      setDeleting(false)
+      setDeleteTarget(null)
+    }
+  }
+
   // ─── Render ─────────────────────────────────────────────────
 
   return (
@@ -289,6 +313,15 @@ export function UserManager({ users: initialUsers }: UserManagerProps) {
                       >
                         <KeyRound className="mr-1 h-4 w-4" />
                         Reset Password
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 text-destructive hover:text-destructive"
+                        onClick={() => setDeleteTarget(user)}
+                      >
+                        <Trash2 className="mr-1 h-4 w-4" />
+                        Hapus
                       </Button>
                     </div>
                   </TableCell>
@@ -454,6 +487,28 @@ export function UserManager({ users: initialUsers }: UserManagerProps) {
               }}
             >
               Tutup
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ─── Delete Confirmation Dialog ────────────────────────── */}
+      <Dialog
+        open={deleteTarget !== null}
+        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hapus Pengguna</DialogTitle>
+            <DialogDescription>
+              Apakah Anda yakin ingin menghapus akun &quot;{deleteTarget?.name}&quot; secara permanen?
+              Tindakan ini tidak dapat dibatalkan.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>Batal</Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={deleting}>
+              {deleting ? "Menghapus..." : "Hapus Permanen"}
             </Button>
           </DialogFooter>
         </DialogContent>
