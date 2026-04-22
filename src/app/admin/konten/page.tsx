@@ -15,7 +15,7 @@ export default async function KontenPage() {
     getInstitutionalContent("PRINCIPAL_MESSAGE"),
     getPagesForMenu(),
     prisma.article.findMany({
-      where: { status: "PUBLISHED", isDeleted: false },
+      where: { status: "PUBLISHED" },
       select: { title: true, slug: true },
       orderBy: { publishedAt: "desc" },
       take: 30,

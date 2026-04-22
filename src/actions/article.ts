@@ -25,7 +25,7 @@ export async function getArticles(
   try {
     await requirePermission("article:create")
     const { search, categoryId, status, page = 1, pageSize = 10 } = params
-    const where: Record<string, unknown> = { isDeleted: false }
+    const where: Record<string, unknown> = {}
     if (status) where.status = status
     if (categoryId) where.categoryId = categoryId
     if (search) where.title = { contains: search, mode: "insensitive" }
@@ -171,16 +171,13 @@ export async function publishArticle(id: string): Promise<ActionResult<Article>>
   }
 }
 
-export async function softDeleteArticle(id: string): Promise<ActionResult<Article>> {
+export async function deleteArticle(id: string): Promise<ActionResult<null>> {
   try {
     await requirePermission("article:delete")
-    const article = await prisma.article.update({
-      where: { id },
-      data: { isDeleted: true },
-    })
+    await prisma.article.delete({ where: { id } })
     revalidatePath("/admin/berita")
     revalidatePath("/")
-    return { success: true, data: article }
+    return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
     return { success: false, error: "Terjadi kesalahan saat menghapus artikel" }

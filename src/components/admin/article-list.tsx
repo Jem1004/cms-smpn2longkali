@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { publishArticle, softDeleteArticle } from "@/actions/article"
+import { publishArticle, deleteArticle } from "@/actions/article"
 import { createCategory, updateCategory, deleteCategory } from "@/actions/category"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -132,7 +132,7 @@ export function ArticleList({
   function handleDeleteArticle() {
     if (!deleteTarget) return
     startTransition(async () => {
-      const result = await softDeleteArticle(deleteTarget.id)
+      const result = await deleteArticle(deleteTarget.id)
       if (result.success) {
         toast.success("Artikel berhasil dihapus")
         setDeleteTarget(null)

@@ -62,7 +62,7 @@ export default async function ArticleDetailPage({
     },
   })
 
-  if (!article || article.status !== "PUBLISHED" || article.isDeleted) {
+  if (!article || article.status !== "PUBLISHED") {
     notFound()
   }
 
@@ -71,7 +71,6 @@ export default async function ArticleDetailPage({
     ? await prisma.article.findMany({
         where: {
           status: "PUBLISHED",
-          isDeleted: false,
           categoryId: article.categoryId,
           id: { not: article.id },
         },

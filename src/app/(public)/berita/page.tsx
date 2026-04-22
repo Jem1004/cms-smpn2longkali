@@ -32,7 +32,7 @@ export default async function BeritaPage({
   const params = await searchParams
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1)
 
-  const where = { status: "PUBLISHED" as const, isDeleted: false }
+  const where = { status: "PUBLISHED" as const }
 
   const [articles, total] = await Promise.all([
     prisma.article.findMany({

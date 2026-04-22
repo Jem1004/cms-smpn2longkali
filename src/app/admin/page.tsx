@@ -5,7 +5,7 @@ import type { SessionWithRole } from "@/types"
 
 async function getDashboardStats() {
   const [articleCount, galleryCount, staffCount, userCount] = await Promise.all([
-    prisma.article.count({ where: { isDeleted: false } }),
+    prisma.article.count({ where: {  } }),
     prisma.galleryImage.count(),
     prisma.staff.count(),
     prisma.user.count({ where: { isActive: true } }),
@@ -15,7 +15,7 @@ async function getDashboardStats() {
 
 async function getRecentArticles() {
   return prisma.article.findMany({
-    where: { isDeleted: false },
+    where: {  },
     take: 6,
     orderBy: { createdAt: "desc" },
     select: {

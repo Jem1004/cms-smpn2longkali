@@ -47,7 +47,7 @@ export async function ProfileNewsSection() {
   const [profileRecord, latestArticles, siteSettings] = await Promise.all([
     prisma.institutionalContent.findUnique({ where: { section: "PROFILE" } }),
     prisma.article.findMany({
-      where: { status: "PUBLISHED", isDeleted: false },
+      where: { status: "PUBLISHED" },
       orderBy: { publishedAt: "desc" },
       take: 3,
       select: {
