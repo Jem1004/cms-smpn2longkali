@@ -85,7 +85,7 @@ export default async function ArticleDetailPage({
       
       {/* Minimalist Title Bar - Consitent but more compact */}
       <header className="bg-[#002244] border-b-2 border-[#FFC107] pt-8 pb-8 md:pt-10 md:pb-10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="text-white/40 text-[9px] font-bold tracking-[0.2em] uppercase mb-3 flex items-center gap-2">
             <Link href="/" className="hover:text-white transition-colors">Beranda</Link> 
             <span>/</span> 

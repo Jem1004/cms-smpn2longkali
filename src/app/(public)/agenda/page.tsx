@@ -51,7 +51,7 @@ export default async function AgendaPage() {
     <article className="bg-white min-h-screen">
       {/* Minimalist Title Bar */}
       <header className="bg-[#002244] relative pt-10 pb-10 md:pt-12 md:pb-12 border-b-[3px] border-yellow-400">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav aria-label="Breadcrumb" className="text-blue-200 text-xs font-bold tracking-widest uppercase mb-3">
             <a href="/" className="hover:text-white transition-colors">Beranda</a> 
             <span className="mx-2 opacity-60">/</span> 
