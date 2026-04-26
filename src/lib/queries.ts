@@ -23,6 +23,7 @@ export async function getPublicMenuItems(): Promise<MenuItemWithChildren[]> {
     type: item.type,
     parentId: item.parentId,
     order: item.order,
+    isHighlighted: item.isHighlighted,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
     children: item.children.map((child) => ({
@@ -32,6 +33,7 @@ export async function getPublicMenuItems(): Promise<MenuItemWithChildren[]> {
       type: child.type,
       parentId: child.parentId,
       order: child.order,
+      isHighlighted: child.isHighlighted,
       createdAt: child.createdAt,
       updatedAt: child.updatedAt,
       children: [],

@@ -32,6 +32,7 @@ export interface MenuItemForm {
   type: "INTERNAL" | "EXTERNAL"
   parentId: string | null
   order: number
+  isHighlighted: boolean
 }
 
 export interface MenuItemWithChildren extends MenuItemForm {
@@ -40,7 +41,6 @@ export interface MenuItemWithChildren extends MenuItemForm {
   createdAt: Date
   updatedAt: Date
 }
-
 // ============================================
 // Article Types
 // ============================================

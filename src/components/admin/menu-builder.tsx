@@ -61,6 +61,7 @@ interface LocalMenuItem {
   type: "INTERNAL" | "EXTERNAL"
   parentId: string | null
   order: number
+  isHighlighted: boolean
   children: LocalMenuItem[]
 }
 
@@ -75,6 +76,7 @@ interface FormState {
   url: string
   type: "INTERNAL" | "EXTERNAL"
   parentId: string | null
+  isHighlighted: boolean
 }
 
 const emptyForm: FormState = {
@@ -82,6 +84,7 @@ const emptyForm: FormState = {
   url: "",
   type: "INTERNAL",
   parentId: null,
+  isHighlighted: false,
 }
 
 // ─── Sortable Item ───────────────────────────────────────────────
@@ -157,6 +160,9 @@ function SortableMenuItem({
       <Badge variant={item.type === "INTERNAL" ? "secondary" : "outline"}>
         {item.type === "INTERNAL" ? "Internal" : "External"}
       </Badge>
+      {item.isHighlighted && (
+        <Badge className="bg-[#FFC107] text-[#002244] hover:bg-[#FFC107]/80">Highlight</Badge>
+      )}
 
       <Button variant="ghost" size="icon" onClick={onEdit} aria-label="Edit">
         <Pencil className="h-4 w-4" />
@@ -214,6 +220,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
       type: item.type,
       parentId: item.parentId,
       order: item.order,
+      isHighlighted: item.isHighlighted ?? false,
       children: (item.children ?? []).map((child) => ({
         id: child.id,
         label: child.label,
@@ -221,6 +228,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
         type: child.type,
         parentId: child.parentId,
         order: child.order,
+        isHighlighted: child.isHighlighted ?? false,
         children: [],
       })),
     }))
@@ -303,6 +311,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
       url: item.url,
       type: item.type,
       parentId: item.parentId,
+      isHighlighted: item.isHighlighted,
     })
     setFormErrors({})
     setFormOpen(true)
@@ -345,6 +354,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
               label: form.label,
               url: form.url,
               type: form.type,
+              isHighlighted: form.isHighlighted,
               parentId: null,
               order: updated.length,
               children: [],
@@ -368,6 +378,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
                   label: form.label,
                   url: form.url,
                   type: form.type,
+                  isHighlighted: form.isHighlighted,
                   parentId: form.parentId,
                   order: p.children.length,
                   children: [],
@@ -380,13 +391,13 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
         // Same level edit
         return prev.map((p) => {
           if (p.id === editingId) {
-            return { ...p, label: form.label, url: form.url, type: form.type }
+            return { ...p, label: form.label, url: form.url, type: form.type, isHighlighted: form.isHighlighted }
           }
           return {
             ...p,
             children: p.children.map((c) =>
               c.id === editingId
-                ? { ...c, label: form.label, url: form.url, type: form.type }
+                ? { ...c, label: form.label, url: form.url, type: form.type, isHighlighted: form.isHighlighted }
                 : c
             ),
           }
@@ -408,6 +419,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
                   label: form.label,
                   url: form.url,
                   type: form.type,
+                  isHighlighted: form.isHighlighted,
                   parentId: form.parentId,
                   order: p.children.length,
                   children: [],
@@ -430,6 +442,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
             label: form.label,
             url: form.url,
             type: form.type,
+            isHighlighted: form.isHighlighted,
             parentId: null,
             order: prev.length,
             children: [],
@@ -481,6 +494,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
           label: parent.label,
           url: parent.url,
           type: parent.type,
+          isHighlighted: parent.isHighlighted,
           parentId: null,
           order: pIdx,
         })
@@ -489,7 +503,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
             label: child.label,
             url: child.url,
             type: child.type,
-            // Kirim index parent sebagai parentId — server akan resolve berdasarkan posisi
+            isHighlighted: child.isHighlighted,
             parentId: `__idx__${pIdx}`,
             order: cIdx,
           })
@@ -512,6 +526,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
             type: item.type,
             parentId: item.parentId,
             order: item.order,
+            isHighlighted: item.isHighlighted ?? false,
             children: (item.children ?? []).map((child) => ({
               id: child.id,
               label: child.label,
@@ -519,6 +534,7 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
               type: child.type,
               parentId: child.parentId,
               order: child.order,
+              isHighlighted: child.isHighlighted ?? false,
               children: [],
             })),
           }))
@@ -781,9 +797,23 @@ export function MenuBuilder({ items: initialItems, pages, departments }: MenuBui
               </div>
             )}
 
+            {/* Highlight toggle */}
+            <div className="flex items-center gap-2 rounded-lg border border-slate-200 p-3 bg-slate-50/50">
+              <input
+                type="checkbox"
+                id="menu-highlight"
+                checked={form.isHighlighted}
+                onChange={(e) => setForm((f) => ({ ...f, isHighlighted: e.target.checked }))}
+                className="rounded"
+              />
+              <label htmlFor="menu-highlight" className="text-sm text-slate-700 cursor-pointer flex-1">
+                <span className="font-medium">Highlight menu ini</span>
+                <span className="block text-xs text-slate-400 mt-0.5">Tampil dengan warna kuning di navbar — cocok untuk PPDB, pengumuman penting, dll.</span>
+              </label>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="menu-parent">Parent</Label>
-              <Select
+              <Label htmlFor="menu-parent">Parent</Label>              <Select
                 value={form.parentId ?? "__none__"}
                 onValueChange={(val) =>
                   setForm((f) => ({

@@ -47,6 +47,7 @@ model MenuItem {
   url       String
   type      MenuItemType @default(INTERNAL)
   order     Int          @default(0)
+  isHighlighted Boolean  @default(false)
   parentId  String?
   parent    MenuItem?    @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children  MenuItem[]   @relation("MenuHierarchy")

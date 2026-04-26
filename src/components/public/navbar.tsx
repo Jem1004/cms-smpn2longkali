@@ -4,6 +4,9 @@ import { ChevronDown } from "lucide-react"
 import { getPublicMenuItems, getSiteSettings } from "@/lib/queries"
 import { MobileMenuToggle } from "./mobile-menu-toggle"
 
+const menuClass = "px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-[#002244] hover:text-white transition-all duration-150"
+const highlightClass = "px-4 py-2 rounded-lg text-[14px] font-bold bg-[#FFC107] text-[#002244] hover:bg-[#FFD54F] transition-all duration-150"
+
 export async function Navbar() {
   const [items, settings] = await Promise.all([
     getPublicMenuItems(),
@@ -49,58 +52,61 @@ export async function Navbar() {
           {/* Desktop navigation — kanan */}
           <nav className="hidden lg:flex items-center ml-auto" aria-label="Menu navigasi utama">
             <ul className="flex items-center gap-1">
-              {items.map((item) => (
-                <li key={item.id} className="relative group/item">
-                  {item.children.length > 0 ? (
-                    <>
-                      <button
-                        className="flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-[#002244] hover:text-white transition-all duration-150"
-                        aria-haspopup="true"
+              {items.map((item) => {
+                const cls = item.isHighlighted ? highlightClass : menuClass
+
+                return (
+                  <li key={item.id} className="relative group/item">
+                    {item.children.length > 0 ? (
+                      <>
+                        <button
+                          className={`flex items-center gap-1 ${cls}`}
+                          aria-haspopup="true"
+                        >
+                          {item.label}
+                          <ChevronDown className="h-3.5 w-3.5 opacity-50 group-hover/item:opacity-100 group-hover/item:rotate-180 transition-all duration-200" />
+                        </button>
+
+                        <div className="absolute right-0 top-full pt-2 hidden group-hover/item:block z-50">
+                          <ul className="bg-white rounded-xl border border-black/[0.06] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)] min-w-[220px] py-1.5 overflow-hidden">
+                            {item.children.map((child) => (
+                              <li key={child.id}>
+                                {child.url === "#" ? (
+                                  <span className="block px-4 py-2.5 text-[13px] text-slate-300 cursor-default">
+                                    {child.label}
+                                  </span>
+                                ) : (
+                                  <Link
+                                    href={child.url}
+                                    className="block px-4 py-2.5 text-[13px] text-slate-600 hover:bg-[#002244] hover:text-white font-medium transition-all duration-150 mx-1.5 rounded-lg"
+                                    target={child.type === "EXTERNAL" ? "_blank" : undefined}
+                                    rel={child.type === "EXTERNAL" ? "noopener noreferrer" : undefined}
+                                  >
+                                    {child.label}
+                                  </Link>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    ) : item.url === "#" ? (
+                      <span className="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-300 cursor-default">
+                        {item.label}
+                      </span>
+                    ) : (
+                      <Link
+                        href={item.url}
+                        className={cls}
+                        target={item.type === "EXTERNAL" ? "_blank" : undefined}
+                        rel={item.type === "EXTERNAL" ? "noopener noreferrer" : undefined}
                       >
                         {item.label}
-                        <ChevronDown className="h-3.5 w-3.5 opacity-50 group-hover/item:opacity-100 group-hover/item:rotate-180 transition-all duration-200" />
-                      </button>
-
-                      {/* Dropdown */}
-                      <div className="absolute right-0 top-full pt-2 hidden group-hover/item:block z-50">
-                        <ul className="bg-white rounded-xl border border-black/[0.06] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)] min-w-[220px] py-1.5 overflow-hidden">
-                          {item.children.map((child) => (
-                            <li key={child.id}>
-                              {child.url === "#" ? (
-                                <span className="block px-4 py-2.5 text-[13px] text-slate-300 cursor-default">
-                                  {child.label}
-                                </span>
-                              ) : (
-                                <Link
-                                  href={child.url}
-                                  className="block px-4 py-2.5 text-[13px] text-slate-600 hover:bg-[#002244] hover:text-white font-medium transition-all duration-150 mx-1.5 rounded-lg"
-                                  target={child.type === "EXTERNAL" ? "_blank" : undefined}
-                                  rel={child.type === "EXTERNAL" ? "noopener noreferrer" : undefined}
-                                >
-                                  {child.label}
-                                </Link>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </>
-                  ) : item.url === "#" ? (
-                    <span className="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-300 cursor-default">
-                      {item.label}
-                    </span>
-                  ) : (
-                    <Link
-                      href={item.url}
-                      className="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-[#002244] hover:text-white transition-all duration-150"
-                      target={item.type === "EXTERNAL" ? "_blank" : undefined}
-                      rel={item.type === "EXTERNAL" ? "noopener noreferrer" : undefined}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
+                      </Link>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
           </nav>
 

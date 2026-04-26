@@ -99,5 +99,5 @@ git push smkmutuppu main
 
 ## `.env` Lokal (Development)
 
-`.env` lokal saat ini terhubung ke database **SMKN 1 PPU** untuk development.
+`.env` lokal saat ini terhubung ke database **SMK Mutu PPU** sebagai environment development utama.
 Jangan push file `.env` ke GitHub.

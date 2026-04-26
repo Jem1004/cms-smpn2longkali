@@ -99,7 +99,10 @@ export function MobileMenuToggle({ items, identity }: MobileMenuToggleProps) {
                   <Link
                     href={item.url}
                     onClick={() => setOpen(false)}
-                    className="block px-6 py-3 text-white hover:text-[#FFC107] hover:bg-white/10 transition-colors text-sm"
+                    className={item.isHighlighted
+                      ? "block mx-3 my-1 px-4 py-2.5 bg-[#FFC107] text-[#002244] font-bold rounded-lg text-sm transition-colors"
+                      : "block px-6 py-3 text-white hover:text-[#FFC107] hover:bg-white/10 transition-colors text-sm"
+                    }
                     target={item.type === "EXTERNAL" ? "_blank" : undefined}
                     rel={item.type === "EXTERNAL" ? "noopener noreferrer" : undefined}
                   >

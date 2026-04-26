@@ -19,6 +19,7 @@ export const menuItemSchema = z.object({
   type: z.enum(["INTERNAL", "EXTERNAL"]),
   parentId: z.string().nullable(),
   order: z.number().int("Urutan harus bilangan bulat").min(0, "Urutan tidak boleh negatif"),
+  isHighlighted: z.boolean().optional().default(false),
 })
 
 export const userSchema = z.object({
