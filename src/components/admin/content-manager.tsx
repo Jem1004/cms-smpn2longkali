@@ -25,6 +25,7 @@ const STATIC_ROUTES = [
   { label: "Pengumuman", url: "/pengumuman" },
   { label: "Agenda", url: "/agenda" },
   { label: "Kontak & Pengaduan", url: "/kontak" },
+  { label: "Pendaftaran Siswa", url: "/daftar" },
 ]
 
 interface ContentManagerProps {

@@ -72,6 +72,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Informasi Publik",
     items: [
       { label: "Pengumuman & Agenda", href: "/admin/pengumuman", icon: Megaphone, permission: "content:manage" },
+      { label: "Pendaftaran Siswa", href: "/admin/pendaftaran-siswa", icon: CalendarDays, permission: "content:manage" },
     ],
   },
   {
@@ -110,6 +111,7 @@ interface AdminSidebarProps {
     email: string
     role: string
   }
+  spmbEnabled?: boolean
   children?: React.ReactNode
 }
 
@@ -219,11 +221,23 @@ function NavGroupLinks({ groups, onNavigate, isMinimized }: { groups: NavGroup[]
   )
 }
 
-export function AdminSidebar({ user, children }: AdminSidebarProps) {
+export function AdminSidebar({ user, spmbEnabled = false, children }: AdminSidebarProps) {
   const [open, setOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const visibleItems = getVisibleItems(user.role)
-  const visibleGroups = getVisibleGroups(user.role)
+
+  // Filter out SPMB menu if feature is disabled
+  const filteredGroups = getVisibleGroups(user.role).map((group) => ({
+    ...group,
+    items: group.items.filter((item) => {
+      if (item.href === "/admin/pendaftaran-siswa") return spmbEnabled
+      return true
+    }),
+  })).filter((group) => group.items.length > 0)
+
+  const visibleItems = getVisibleItems(user.role).filter((item) => {
+    if (item.href === "/admin/pendaftaran-siswa") return spmbEnabled
+    return true
+  })
 
   const roleLabel: Record<string, string> = {
     SUPER_ADMIN: "Super Admin",
@@ -263,7 +277,7 @@ export function AdminSidebar({ user, children }: AdminSidebarProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto px-3.5 py-6 overflow-x-hidden relative z-10 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-          <NavGroupLinks groups={visibleGroups} isMinimized={isMinimized} />
+          <NavGroupLinks groups={filteredGroups} isMinimized={isMinimized} />
         </div>
 
         <div className={cn("border-t border-white/5 transition-all relative z-10", isMinimized ? "p-3" : "p-4")}>
@@ -307,7 +321,7 @@ export function AdminSidebar({ user, children }: AdminSidebarProps) {
               </div>
             </SheetHeader>
             <div className="px-3.5 py-6">
-              <NavGroupLinks groups={visibleGroups} onNavigate={() => setOpen(false)} />
+              <NavGroupLinks groups={filteredGroups} onNavigate={() => setOpen(false)} />
             </div>
           </SheetContent>
         </Sheet>

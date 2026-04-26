@@ -148,21 +148,46 @@ enum AnnouncementType {
 }
 
 model Department {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  imageUrl    String?
-  headName    String?
-  headPhoto   String?
-  headTitle   String?
-  kompetensi  String[] @default([])
-  bidangKerja String[] @default([])
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                    String         @id @default(cuid())
+  name                  String
+  slug                  String         @unique
+  description           String?
+  imageUrl              String?
+  headName              String?
+  headPhoto             String?
+  headTitle             String?
+  kompetensi            String[]       @default([])
+  bidangKerja           String[]       @default([])
+  isOpenForRegistration Boolean        @default(true)
+  order                 Int            @default(0)
+  registrations         Registration[]
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
   @@index([slug])
+}
+
+enum RegistrationStatus {
+  PENDING
+  DITERIMA
+  DITOLAK
+}
+
+model Registration {
+  id           String             @id @default(cuid())
+  namaLengkap  String
+  ttl          String
+  alamat       String
+  asalSekolah  String
+  noHp         String
+  departmentId String
+  department   Department         @relation(fields: [departmentId], references: [id])
+  status       RegistrationStatus @default(PENDING)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([status])
+  @@index([departmentId])
 }
 
 model Page {

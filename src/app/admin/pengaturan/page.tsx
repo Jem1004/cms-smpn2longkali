@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { hasPermission, type Role } from "@/lib/rbac"
 import { getSettingsForAdmin } from "@/actions/settings"
+import { isSpmbEnabled } from "@/actions/registration"
 import { SettingsForm } from "@/components/admin/settings-form"
 
 export const metadata = {
@@ -18,12 +19,14 @@ export default async function PengaturanPage() {
 
   const user = session.user as { role: Role }
   
-  // Only super admin can access settings
   if (!hasPermission(user.role, "menu:manage")) {
     redirect("/403")
   }
 
-  const result = await getSettingsForAdmin()
+  const [result, spmbEnabled] = await Promise.all([
+    getSettingsForAdmin(),
+    isSpmbEnabled(),
+  ])
   
   if (!result.success) {
     return (
@@ -33,5 +36,5 @@ export default async function PengaturanPage() {
     )
   }
 
-  return <SettingsForm initialSettings={result.data} />
+  return <SettingsForm initialSettings={result.data} spmbEnabled={spmbEnabled} />
 }
