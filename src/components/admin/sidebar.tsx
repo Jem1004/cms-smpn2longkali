@@ -18,6 +18,7 @@ import {
   Megaphone,
   CalendarDays,
   Globe,
+  KeyRound,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -353,6 +354,12 @@ export function AdminSidebar({ user, spmbEnabled = false, children }: AdminSideb
               <p className="text-[9px] text-blue-700 font-bold tracking-widest uppercase mt-2 bg-blue-50/80 inline-block px-2 py-1 rounded-md border border-blue-100/50">{roleLabel[user.role] ?? user.role}</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuItem asChild className="cursor-pointer font-semibold m-1 rounded-xl px-4 py-2">
+              <Link href="/admin/profil">
+                <KeyRound className="h-4 w-4 mr-2" />
+                Ganti Password
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 import("next-auth/react").then(({ signOut }) =>

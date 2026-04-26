@@ -98,35 +98,32 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
 
   // Export Excel
   function handleExport() {
-    const rows = filtered.map((r, i) => ({
-      No: i + 1,
-      "Nama Lengkap": r.namaLengkap,
-      "Tempat/Tanggal Lahir": r.ttl,
-      Alamat: r.alamat,
-      "Asal Sekolah": r.asalSekolah,
-      "No HP": r.noHp,
-      Jurusan: r.department.name,
-      Status: r.status,
-      "Tanggal Daftar": formatDate(r.createdAt),
-    }))
+    import("xlsx").then((XLSX) => {
+      const rows = filtered.map((r, i) => ({
+        "No": i + 1,
+        "Nama Lengkap": r.namaLengkap,
+        "Tempat/Tanggal Lahir": r.ttl,
+        "Alamat": r.alamat,
+        "Asal Sekolah": r.asalSekolah,
+        "No HP": r.noHp,
+        "Jurusan": r.department.name,
+        "Status": r.status,
+        "Tanggal Daftar": formatDate(r.createdAt),
+      }))
 
-    // CSV export (no library needed)
-    const headers = Object.keys(rows[0] || {})
-    const csv = [
-      headers.join(","),
-      ...rows.map((row) =>
-        headers.map((h) => `"${String((row as Record<string, unknown>)[h] ?? "").replace(/"/g, '""')}"`).join(",")
-      ),
-    ].join("\n")
+      const ws = XLSX.utils.json_to_sheet(rows)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, "Pendaftar")
 
-    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `pendaftaran-siswa-${new Date().toISOString().slice(0, 10)}.csv`
-    a.click()
-    URL.revokeObjectURL(url)
-    toast.success("Data berhasil diexport")
+      // Auto-width columns
+      const colWidths = Object.keys(rows[0] || {}).map((key) => ({
+        wch: Math.max(key.length, ...rows.map((r) => String((r as Record<string, unknown>)[key] ?? "").length)) + 2,
+      }))
+      ws["!cols"] = colWidths
+
+      XLSX.writeFile(wb, `pendaftaran-siswa-${new Date().toISOString().slice(0, 10)}.xlsx`)
+      toast.success("Data berhasil diexport ke Excel")
+    })
   }
 
   return (
@@ -139,7 +136,7 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleExport} disabled={filtered.length === 0} className="rounded-xl">
-            <Download className="mr-2 h-4 w-4" /> Export CSV
+            <Download className="mr-2 h-4 w-4" /> Export Excel
           </Button>
           <Button
             onClick={handleToggleSpmb}

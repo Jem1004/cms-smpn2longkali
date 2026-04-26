@@ -237,3 +237,37 @@ export async function deleteUser(id: string): Promise<ActionResult<null>> {
     return { success: false, error: "Terjadi kesalahan saat menghapus pengguna" }
   }
 }
+
+/**
+ * Change own password. Requires current password verification.
+ */
+export async function changeOwnPassword(data: {
+  currentPassword: string
+  newPassword: string
+}): Promise<ActionResult<null>> {
+  try {
+    const { auth } = await import("@/lib/auth")
+    const session = await auth()
+    if (!session?.user?.id) {
+      return { success: false, error: "Anda harus login" }
+    }
+
+    if (data.newPassword.length < 8) {
+      return { success: false, error: "Password baru minimal 8 karakter" }
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } })
+    if (!user) return { success: false, error: "Pengguna tidak ditemukan" }
+
+    const isValid = await bcrypt.compare(data.currentPassword, user.password)
+    if (!isValid) return { success: false, error: "Password lama salah" }
+
+    const hashed = await bcrypt.hash(data.newPassword, SALT_ROUNDS)
+    await prisma.user.update({ where: { id: user.id }, data: { password: hashed } })
+
+    return { success: true, data: null }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan" }
+  }
+}
