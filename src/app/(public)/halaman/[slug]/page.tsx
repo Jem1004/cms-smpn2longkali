@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getPageBySlug } from "@/actions/page"
 
@@ -45,7 +46,7 @@ export default async function PublicPageDetail({
       <header className="bg-[#002244] relative pt-10 pb-10 md:pt-12 md:pb-12 border-b-[3px] border-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav aria-label="Breadcrumb" className="text-blue-300/60 text-xs font-bold tracking-widest uppercase mb-3">
-            <a href="/" className="hover:text-white transition-colors">Beranda</a> 
+            <Link href="/" className="hover:text-white transition-colors">Beranda</Link> 
             <span className="mx-2 opacity-40">/</span> 
             <span className="text-blue-200/80">Halaman</span>
           </nav>

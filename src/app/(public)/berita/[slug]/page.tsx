@@ -84,27 +84,22 @@ export default async function ArticleDetailPage({
     <main className="bg-white min-h-screen pb-20">
       
       {/* Minimalist Title Bar - Consitent but more compact */}
-      <header className="bg-[#002244] border-b-2 border-[#FFC107] pt-8 pb-8 md:pt-10 md:pb-10">
+      <header className="bg-[#002244] border-b-[3px] border-yellow-400 pt-10 pb-10 md:pt-12 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-white/40 text-[9px] font-bold tracking-[0.2em] uppercase mb-3 flex items-center gap-2">
+          <nav aria-label="Breadcrumb" className="text-blue-300/60 text-xs font-bold tracking-widest uppercase mb-3 flex items-center gap-2">
             <Link href="/" className="hover:text-white transition-colors">Beranda</Link> 
-            <span>/</span> 
+            <span className="opacity-40">/</span> 
             <Link href="/berita" className="hover:text-white transition-colors">Berita</Link>
           </nav>
           
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight mb-5">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-snug mb-5">
             {article.title}
           </h1>
 
-          <div className="flex items-center gap-5 text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[#FFC107]">Oleh</span>
-              <span className="text-white/60">{article.author.name}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[#FFC107]">Pada</span>
-              <span className="text-white/60">{formatDate(article.publishedAt)}</span>
-            </div>
+          <div className="flex items-center gap-3 text-blue-200/60 text-sm">
+            <span>{article.author.name}</span>
+            <span>·</span>
+            <span>{formatDate(article.publishedAt)}</span>
           </div>
         </div>
       </header>

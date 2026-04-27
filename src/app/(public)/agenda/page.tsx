@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { getAllPublicEvents } from "@/actions/event"
 import { CalendarDays, MapPin } from "lucide-react"
 
@@ -52,10 +53,10 @@ export default async function AgendaPage() {
       {/* Minimalist Title Bar */}
       <header className="bg-[#002244] relative pt-10 pb-10 md:pt-12 md:pb-12 border-b-[3px] border-yellow-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav aria-label="Breadcrumb" className="text-blue-200 text-xs font-bold tracking-widest uppercase mb-3">
-            <a href="/" className="hover:text-white transition-colors">Beranda</a> 
-            <span className="mx-2 opacity-60">/</span> 
-            <span className="text-white">Agenda</span>
+          <nav aria-label="Breadcrumb" className="text-blue-300/60 text-xs font-bold tracking-widest uppercase mb-3">
+            <Link href="/" className="hover:text-white transition-colors">Beranda</Link> 
+            <span className="mx-2 opacity-40">/</span> 
+            <span className="text-blue-200/80">Agenda</span>
           </nav>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-snug">
             Agenda Kegiatan
