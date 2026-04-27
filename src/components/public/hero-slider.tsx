@@ -73,7 +73,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
 
 function SingleSlide({ slide }: { slide: HeroSlide }) {
   return (
-    <div className="relative w-full min-h-[480px] md:min-h-[540px] lg:min-h-[580px]">
+    <div className="relative w-full min-h-[360px] md:min-h-[480px] lg:min-h-[580px]">
       {/* Background image — full bleed */}
       {slide.imageUrl ? (
         <Image
@@ -93,22 +93,22 @@ function SingleSlide({ slide }: { slide: HeroSlide }) {
       <div className="absolute inset-0 bg-gradient-to-t from-[#002244]/50 via-transparent to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center min-h-[480px] md:min-h-[540px] lg:min-h-[580px]">
-        <div className="max-w-xl py-16 md:py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center min-h-[360px] md:min-h-[480px] lg:min-h-[580px]">
+        <div className="max-w-xl py-12 md:py-16 lg:py-20">
           {/* Badge */}
           {slide.badgeLabel && (
-            <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-[#FFC107] bg-[#FFC107]/10 border border-[#FFC107]/20 px-3 py-1 rounded-full mb-4">
+            <span className="inline-block text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-[#FFC107] bg-[#FFC107]/10 border border-[#FFC107]/20 px-3 py-1 rounded-full mb-3 md:mb-4">
               {slide.badgeLabel}
             </span>
           )}
 
           {/* Title */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3 md:mb-4">
             {slide.title}
           </h2>
 
           {/* Description */}
-          <p className="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-md line-clamp-3">
+          <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-md line-clamp-3">
             {slide.description}
           </p>
 
@@ -116,7 +116,7 @@ function SingleSlide({ slide }: { slide: HeroSlide }) {
           {slide.ctaText && (
             <Link
               href={slide.ctaUrl || "/berita"}
-              className="inline-flex items-center gap-2 bg-[#FFC107] hover:bg-[#FFD54F] text-[#002244] font-bold text-sm px-6 py-3 rounded-xl transition-colors"
+              className="inline-flex items-center gap-2 bg-[#FFC107] hover:bg-[#FFD54F] text-[#002244] font-bold text-xs sm:text-sm px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl transition-colors"
             >
               {slide.ctaText}
               <ArrowRight className="w-4 h-4" />
