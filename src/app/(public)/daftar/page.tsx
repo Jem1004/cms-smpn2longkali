@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { isRegistrationOpen, getOpenDepartments, isSpmbEnabled } from "@/actions/registration"
+import { isRegistrationOpen, getOpenDepartments, isSpmbEnabled, getPublicRegistrationFields } from "@/actions/registration"
 import { getSiteSettings } from "@/lib/queries"
 import { ClipboardList } from "lucide-react"
 import { RegistrationForm } from "./registration-form"
@@ -17,10 +17,11 @@ export default async function DaftarPage() {
   const enabled = await isSpmbEnabled()
   if (!enabled) notFound()
 
-  const [open, departments, settings] = await Promise.all([
+  const [open, departments, settings, customFields] = await Promise.all([
     isRegistrationOpen(),
     getOpenDepartments(),
     getSiteSettings(),
+    getPublicRegistrationFields(),
   ])
 
   return (
@@ -63,6 +64,7 @@ export default async function DaftarPage() {
           <RegistrationForm
             departments={departments}
             schoolName={settings.identity.name}
+            customFields={customFields}
           />
         )}
       </section>

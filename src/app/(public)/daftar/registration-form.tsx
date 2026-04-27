@@ -7,9 +7,10 @@ import { submitRegistration } from "@/actions/registration"
 interface Props {
   departments: { id: string; name: string }[]
   schoolName: string
+  customFields: { id: string; label: string; type: string; options: string[]; required: boolean }[]
 }
 
-export function RegistrationForm({ departments, schoolName }: Props) {
+export function RegistrationForm({ departments, schoolName, customFields }: Props) {
   const [isPending, startTransition] = useTransition()
   const [success, setSuccess] = useState(false)
   const [registrationId, setRegistrationId] = useState("")
@@ -24,6 +25,11 @@ export function RegistrationForm({ departments, schoolName }: Props) {
     noHp: "",
     departmentId: "",
   })
+  const [customData, setCustomData] = useState<Record<string, string>>(() => {
+    const init: Record<string, string> = {}
+    customFields.forEach((f) => { init[f.id] = "" })
+    return init
+  })
 
   function update(field: string, value: string) {
     setForm((f) => ({ ...f, [field]: value }))
@@ -35,7 +41,10 @@ export function RegistrationForm({ departments, schoolName }: Props) {
     setGlobalError("")
 
     startTransition(async () => {
-      const result = await submitRegistration(form)
+      const result = await submitRegistration({
+        ...form,
+        customData: Object.keys(customData).length > 0 ? customData : undefined,
+      })
       if (!result.success) {
         if (result.fieldErrors) setErrors(result.fieldErrors)
         setGlobalError(result.error)
@@ -163,6 +172,59 @@ export function RegistrationForm({ departments, schoolName }: Props) {
         </select>
         {errors.departmentId && <p className="text-xs text-red-500">{errors.departmentId[0]}</p>}
       </div>
+
+      {/* Custom Fields */}
+      {customFields.map((field) => (
+        <div key={field.id} className="space-y-1.5">
+          <label className="text-sm font-semibold text-slate-700">
+            {field.label} {field.required && <span className="text-red-500">*</span>}
+          </label>
+          {field.type === "TEXT" && (
+            <input
+              type="text"
+              value={customData[field.id] ?? ""}
+              onChange={(e) => setCustomData((d) => ({ ...d, [field.id]: e.target.value }))}
+              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002244]/20 focus:border-[#002244]"
+            />
+          )}
+          {field.type === "TEXTAREA" && (
+            <textarea
+              value={customData[field.id] ?? ""}
+              onChange={(e) => setCustomData((d) => ({ ...d, [field.id]: e.target.value }))}
+              rows={2}
+              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002244]/20 focus:border-[#002244] resize-none"
+            />
+          )}
+          {field.type === "NUMBER" && (
+            <input
+              type="number"
+              value={customData[field.id] ?? ""}
+              onChange={(e) => setCustomData((d) => ({ ...d, [field.id]: e.target.value }))}
+              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002244]/20 focus:border-[#002244]"
+            />
+          )}
+          {field.type === "SELECT" && (
+            <select
+              value={customData[field.id] ?? ""}
+              onChange={(e) => setCustomData((d) => ({ ...d, [field.id]: e.target.value }))}
+              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002244]/20 focus:border-[#002244] bg-white"
+            >
+              <option value="">Pilih...</option>
+              {field.options.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          )}
+          {field.type === "DATE" && (
+            <input
+              type="date"
+              value={customData[field.id] ?? ""}
+              onChange={(e) => setCustomData((d) => ({ ...d, [field.id]: e.target.value }))}
+              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#002244]/20 focus:border-[#002244]"
+            />
+          )}
+        </div>
+      ))}
 
       <button
         type="submit"

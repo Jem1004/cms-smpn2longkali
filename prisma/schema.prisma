@@ -183,12 +183,34 @@ model Registration {
   noHp         String
   departmentId String
   department   Department         @relation(fields: [departmentId], references: [id])
+  customData   Json?
   status       RegistrationStatus @default(PENDING)
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
 
   @@index([status])
   @@index([departmentId])
+}
+
+enum RegistrationFieldType {
+  TEXT
+  TEXTAREA
+  NUMBER
+  SELECT
+  DATE
+}
+
+model RegistrationField {
+  id        String                @id @default(cuid())
+  label     String
+  type      RegistrationFieldType @default(TEXT)
+  options   String[]              @default([])
+  required  Boolean               @default(false)
+  order     Int                   @default(0)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+
+  @@index([order])
 }
 
 model Page {

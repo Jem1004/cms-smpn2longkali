@@ -27,31 +27,38 @@ export async function submitRegistration(data: {
   asalSekolah: string
   noHp: string
   departmentId: string
+  customData?: Record<string, string>
 }): Promise<ActionResult<Registration>> {
   try {
-    // Check if registration is open
     const spmbSetting = await prisma.siteSettings.findUnique({ where: { key: "spmb.isOpen" } })
     const isOpen = spmbSetting ? (spmbSetting.value as { isOpen: boolean }).isOpen : false
-    if (!isOpen) {
-      return { success: false, error: "Pendaftaran sedang ditutup" }
-    }
+    if (!isOpen) return { success: false, error: "Pendaftaran sedang ditutup" }
 
-    // Check if department is open for registration
     const dept = await prisma.department.findUnique({ where: { id: data.departmentId } })
-    if (!dept || !dept.isOpenForRegistration) {
-      return { success: false, error: "Jurusan yang dipilih tidak tersedia untuk pendaftaran" }
-    }
+    if (!dept || !dept.isOpenForRegistration) return { success: false, error: "Jurusan tidak tersedia" }
 
     const validated = registrationSchema.safeParse(data)
     if (!validated.success) {
       return { success: false, error: "Validasi gagal", fieldErrors: validated.error.flatten().fieldErrors as Record<string, string[]> }
     }
 
+    // Validate required custom fields
+    const customFields = await prisma.registrationField.findMany({ orderBy: { order: "asc" } })
+    const customData = data.customData ?? {}
+    for (const field of customFields) {
+      if (field.required && !customData[field.id]?.trim()) {
+        return { success: false, error: `${field.label} wajib diisi` }
+      }
+    }
+
     const registration = await prisma.registration.create({
-      data: validated.data,
+      data: {
+        ...validated.data,
+        customData: Object.keys(customData).length > 0 ? customData : undefined,
+      },
     })
 
-    revalidatePath("/admin/pendaftaran")
+    revalidatePath("/admin/pendaftaran-siswa")
     return { success: true, data: registration }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -208,6 +215,86 @@ export async function toggleSpmbEnabled(enabled: boolean): Promise<ActionResult<
       create: { key: "spmb.enabled", value: { enabled } },
     })
     revalidatePath("/admin")
+    revalidatePath("/daftar")
+    return { success: true, data: null }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan" }
+  }
+}
+
+// ============================================
+// Registration Custom Fields
+// ============================================
+
+import type { RegistrationField } from "@prisma/client"
+
+export async function getRegistrationFields(): Promise<ActionResult<RegistrationField[]>> {
+  try {
+    await requirePermission("content:manage")
+    const fields = await prisma.registrationField.findMany({ orderBy: { order: "asc" } })
+    return { success: true, data: fields }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan" }
+  }
+}
+
+export async function getPublicRegistrationFields(): Promise<RegistrationField[]> {
+  return prisma.registrationField.findMany({ orderBy: { order: "asc" } })
+}
+
+export async function createRegistrationField(data: {
+  label: string
+  type: "TEXT" | "TEXTAREA" | "NUMBER" | "SELECT" | "DATE"
+  options?: string[]
+  required?: boolean
+}): Promise<ActionResult<RegistrationField>> {
+  try {
+    await requirePermission("content:manage")
+    const maxOrder = await prisma.registrationField.aggregate({ _max: { order: true } })
+    const field = await prisma.registrationField.create({
+      data: {
+        label: data.label,
+        type: data.type,
+        options: data.options ?? [],
+        required: data.required ?? false,
+        order: (maxOrder._max.order ?? -1) + 1,
+      },
+    })
+    revalidatePath("/admin/pendaftaran-siswa")
+    revalidatePath("/daftar")
+    return { success: true, data: field }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan" }
+  }
+}
+
+export async function updateRegistrationField(
+  id: string,
+  data: { label: string; type: "TEXT" | "TEXTAREA" | "NUMBER" | "SELECT" | "DATE"; options?: string[]; required?: boolean }
+): Promise<ActionResult<RegistrationField>> {
+  try {
+    await requirePermission("content:manage")
+    const field = await prisma.registrationField.update({
+      where: { id },
+      data: { label: data.label, type: data.type, options: data.options ?? [], required: data.required ?? false },
+    })
+    revalidatePath("/admin/pendaftaran-siswa")
+    revalidatePath("/daftar")
+    return { success: true, data: field }
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message }
+    return { success: false, error: "Terjadi kesalahan" }
+  }
+}
+
+export async function deleteRegistrationField(id: string): Promise<ActionResult<null>> {
+  try {
+    await requirePermission("content:manage")
+    await prisma.registrationField.delete({ where: { id } })
+    revalidatePath("/admin/pendaftaran-siswa")
     revalidatePath("/daftar")
     return { success: true, data: null }
   } catch (error) {

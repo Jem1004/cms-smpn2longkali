@@ -1,13 +1,16 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import React, { useState, useTransition } from "react"
 import { toast } from "sonner"
 import {
   ClipboardList, Download, Trash2, CheckCircle, XCircle, Clock,
-  ToggleLeft, ToggleRight, Filter,
+  ToggleLeft, ToggleRight, Filter, Plus, Pencil, Settings2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
@@ -15,8 +18,9 @@ import {
 import {
   updateRegistrationStatus, deleteRegistration,
   toggleSpmb, toggleDepartmentRegistration,
+  createRegistrationField, updateRegistrationField, deleteRegistrationField,
 } from "@/actions/registration"
-import type { Registration, Department } from "@prisma/client"
+import type { Registration, Department, RegistrationField } from "@prisma/client"
 
 type RegWithDept = Registration & { department: { name: string } }
 
@@ -34,17 +38,25 @@ interface Props {
   initialRegistrations: RegWithDept[]
   departments: Department[]
   spmbOpen: boolean
+  customFields: RegistrationField[]
 }
 
-export function RegistrationManager({ initialRegistrations, departments, spmbOpen }: Props) {
+export function RegistrationManager({ initialRegistrations, departments, spmbOpen, customFields: initialFields }: Props) {
   const [registrations, setRegistrations] = useState(initialRegistrations)
   const [isOpen, setIsOpen] = useState(spmbOpen)
   const [deptList, setDeptList] = useState(departments)
+  const [fields, setFields] = useState(initialFields)
   const [filterStatus, setFilterStatus] = useState<string>("all")
   const [filterDept, setFilterDept] = useState<string>("all")
   const [deleteTarget, setDeleteTarget] = useState<RegWithDept | null>(null)
   const [detailTarget, setDetailTarget] = useState<RegWithDept | null>(null)
   const [isPending, startTransition] = useTransition()
+
+  // Field form state
+  const [fieldDialogOpen, setFieldDialogOpen] = useState(false)
+  const [editingField, setEditingField] = useState<RegistrationField | null>(null)
+  const [fieldForm, setFieldForm] = useState({ label: "", type: "TEXT" as string, options: "", required: false })
+  const [deleteFieldTarget, setDeleteFieldTarget] = useState<RegistrationField | null>(null)
 
   // Filter
   const filtered = registrations.filter((r) => {
@@ -99,30 +111,80 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
   // Export Excel
   function handleExport() {
     import("xlsx").then((XLSX) => {
-      const rows = filtered.map((r, i) => ({
-        "No": i + 1,
-        "Nama Lengkap": r.namaLengkap,
-        "Tempat/Tanggal Lahir": r.ttl,
-        "Alamat": r.alamat,
-        "Asal Sekolah": r.asalSekolah,
-        "No HP": r.noHp,
-        "Jurusan": r.department.name,
-        "Status": r.status,
-        "Tanggal Daftar": formatDate(r.createdAt),
-      }))
+      const rows = filtered.map((r, i) => {
+        const base: Record<string, unknown> = {
+          "No": i + 1,
+          "Nama Lengkap": r.namaLengkap,
+          "Tempat/Tanggal Lahir": r.ttl,
+          "Alamat": r.alamat,
+          "Asal Sekolah": r.asalSekolah,
+          "No HP": r.noHp,
+          "Jurusan": r.department.name,
+          "Status": r.status,
+          "Tanggal Daftar": formatDate(r.createdAt),
+        }
+        // Add custom fields
+        const cd = (r.customData ?? {}) as Record<string, string>
+        for (const f of fields) {
+          base[f.label] = cd[f.id] ?? ""
+        }
+        return base
+      })
 
       const ws = XLSX.utils.json_to_sheet(rows)
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, "Pendaftar")
 
-      // Auto-width columns
       const colWidths = Object.keys(rows[0] || {}).map((key) => ({
-        wch: Math.max(key.length, ...rows.map((r) => String((r as Record<string, unknown>)[key] ?? "").length)) + 2,
+        wch: Math.max(key.length, ...rows.map((r) => String(r[key] ?? "").length)) + 2,
       }))
       ws["!cols"] = colWidths
 
       XLSX.writeFile(wb, `pendaftaran-siswa-${new Date().toISOString().slice(0, 10)}.xlsx`)
       toast.success("Data berhasil diexport ke Excel")
+    })
+  }
+
+  // Field handlers
+  function openAddField() {
+    setEditingField(null)
+    setFieldForm({ label: "", type: "TEXT", options: "", required: false })
+    setFieldDialogOpen(true)
+  }
+  function openEditField(f: RegistrationField) {
+    setEditingField(f)
+    setFieldForm({ label: f.label, type: f.type, options: f.options.join(", "), required: f.required })
+    setFieldDialogOpen(true)
+  }
+  function handleSaveField() {
+    if (!fieldForm.label.trim()) { toast.error("Label wajib diisi"); return }
+    startTransition(async () => {
+      const data = {
+        label: fieldForm.label,
+        type: fieldForm.type as "TEXT" | "TEXTAREA" | "NUMBER" | "SELECT" | "DATE",
+        options: fieldForm.type === "SELECT" ? fieldForm.options.split(",").map((o) => o.trim()).filter(Boolean) : [],
+        required: fieldForm.required,
+      }
+      const result = editingField
+        ? await updateRegistrationField(editingField.id, data)
+        : await createRegistrationField(data)
+      if (!result.success) { toast.error(result.error); return }
+      toast.success(editingField ? "Field diperbarui" : "Field ditambahkan")
+      setFields((prev) => editingField
+        ? prev.map((f) => f.id === editingField.id ? result.data! : f)
+        : [...prev, result.data!]
+      )
+      setFieldDialogOpen(false)
+    })
+  }
+  function handleDeleteField() {
+    if (!deleteFieldTarget) return
+    startTransition(async () => {
+      const result = await deleteRegistrationField(deleteFieldTarget.id)
+      if (!result.success) { toast.error(result.error); return }
+      setFields((prev) => prev.filter((f) => f.id !== deleteFieldTarget.id))
+      toast.success("Field dihapus")
+      setDeleteFieldTarget(null)
     })
   }
 
@@ -167,6 +229,38 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
               >
                 {dept.isOpenForRegistration ? "✓" : "✕"} {dept.name}
               </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Custom Fields */}
+      <div className="bg-white rounded-xl border border-slate-200 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-sm font-semibold text-slate-700">Field Tambahan Form</p>
+            <p className="text-xs text-slate-400 mt-0.5">Field custom yang muncul di form pendaftaran publik</p>
+          </div>
+          <Button size="sm" variant="outline" onClick={openAddField} className="rounded-lg">
+            <Plus className="mr-1 h-3 w-3" /> Tambah Field
+          </Button>
+        </div>
+        {fields.length === 0 ? (
+          <p className="text-xs text-slate-400 italic">Belum ada field tambahan. Form hanya menampilkan field bawaan.</p>
+        ) : (
+          <div className="space-y-2">
+            {fields.map((f) => (
+              <div key={f.id} className="flex items-center gap-3 px-3 py-2 rounded-lg border border-slate-100 bg-slate-50/50">
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-medium text-slate-700">{f.label}</span>
+                  <span className="text-xs text-slate-400 ml-2">{f.type}{f.required ? " · Wajib" : ""}</span>
+                  {f.type === "SELECT" && f.options.length > 0 && (
+                    <span className="text-xs text-slate-300 ml-2">({f.options.join(", ")})</span>
+                  )}
+                </div>
+                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openEditField(f)}><Pencil className="h-3 w-3" /></Button>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => setDeleteFieldTarget(f)}><Trash2 className="h-3 w-3" /></Button>
+              </div>
             ))}
           </div>
         )}
@@ -278,6 +372,21 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
                   <Clock className="mr-1 h-3.5 w-3.5" /> Pending
                 </Button>
               </div>
+
+              {/* Custom fields data */}
+              {fields.length > 0 && detailTarget.customData && (
+                <div className="pt-3 border-t border-slate-100 space-y-2">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Data Tambahan</p>
+                  <div className="grid grid-cols-[120px_1fr] gap-2">
+                    {fields.map((f) => (
+                      <React.Fragment key={f.id}>
+                        <span className="text-slate-400">{f.label}</span>
+                        <span className="text-slate-700">{(detailTarget.customData as Record<string, string>)?.[f.id] || "-"}</span>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
@@ -293,6 +402,64 @@ export function RegistrationManager({ initialRegistrations, departments, spmbOpe
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteTarget(null)}>Batal</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isPending}>Hapus</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Field Form Dialog */}
+      <Dialog open={fieldDialogOpen} onOpenChange={setFieldDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editingField ? "Edit Field" : "Tambah Field"}</DialogTitle>
+            <DialogDescription>Field custom akan muncul di form pendaftaran publik.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Label</Label>
+              <Input value={fieldForm.label} onChange={(e) => setFieldForm((f) => ({ ...f, label: e.target.value }))} placeholder="Contoh: Nama Orang Tua" />
+            </div>
+            <div className="space-y-2">
+              <Label>Tipe Input</Label>
+              <Select value={fieldForm.type} onValueChange={(v) => setFieldForm((f) => ({ ...f, type: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="TEXT">Teks Pendek</SelectItem>
+                  <SelectItem value="TEXTAREA">Teks Panjang</SelectItem>
+                  <SelectItem value="NUMBER">Angka</SelectItem>
+                  <SelectItem value="SELECT">Pilihan Dropdown</SelectItem>
+                  <SelectItem value="DATE">Tanggal</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {fieldForm.type === "SELECT" && (
+              <div className="space-y-2">
+                <Label>Opsi Pilihan</Label>
+                <Input value={fieldForm.options} onChange={(e) => setFieldForm((f) => ({ ...f, options: e.target.value }))} placeholder="Laki-laki, Perempuan (pisahkan dengan koma)" />
+                <p className="text-xs text-muted-foreground">Pisahkan setiap opsi dengan koma</p>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <input type="checkbox" id="field-required" checked={fieldForm.required} onChange={(e) => setFieldForm((f) => ({ ...f, required: e.target.checked }))} className="rounded" />
+              <label htmlFor="field-required" className="text-sm text-slate-700 cursor-pointer">Wajib diisi</label>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setFieldDialogOpen(false)}>Batal</Button>
+            <Button onClick={handleSaveField} disabled={isPending}>{editingField ? "Simpan" : "Tambah"}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Field Dialog */}
+      <Dialog open={!!deleteFieldTarget} onOpenChange={(o) => { if (!o) setDeleteFieldTarget(null) }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hapus Field</DialogTitle>
+            <DialogDescription>Yakin ingin menghapus field &quot;{deleteFieldTarget?.label}&quot;? Data yang sudah diisi pendaftar untuk field ini tidak akan terhapus.</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteFieldTarget(null)}>Batal</Button>
+            <Button variant="destructive" onClick={handleDeleteField} disabled={isPending}>Hapus</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
