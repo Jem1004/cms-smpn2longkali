@@ -26,7 +26,7 @@ const TYPE_CONFIG: Record<string, { icon: any; badge: string; text: string }> = 
   },
 }
 
-function formatDate(date: Date) {
+function formatDate(date: Date | string) {
   return new Intl.DateTimeFormat("id-ID", {
     day: "numeric",
     month: "long",

@@ -12,13 +12,14 @@ const DEFAULT_PROFILE: ProfileContent = {
   sejarah: "",
 }
 
-function formatDate(date: Date | null): string {
+function formatDate(date: Date | string | null): string {
   if (!date) return ""
+  const d = typeof date === "string" ? new Date(date) : date
   return new Intl.DateTimeFormat("id-ID", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(date)
+  }).format(d)
 }
 
 function getYouTubeEmbedUrl(url: string): string | null {

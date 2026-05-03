@@ -38,8 +38,8 @@ export interface MenuItemForm {
 export interface MenuItemWithChildren extends MenuItemForm {
   id: string
   children: MenuItemWithChildren[]
-  createdAt: Date
-  updatedAt: Date
+  createdAt: Date | string
+  updatedAt: Date | string
 }
 // ============================================
 // Article Types

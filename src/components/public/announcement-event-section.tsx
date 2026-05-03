@@ -3,7 +3,29 @@
 import { useEffect, useRef, useState } from "react"
 import { CalendarDays, MapPin, ArrowRight, Megaphone } from "lucide-react"
 import Link from "next/link"
-import type { Announcement, SchoolEvent } from "@prisma/client"
+
+// Serialized types — Date fields are ISO strings after unstable_cache
+interface SerializedAnnouncement {
+  id: string
+  title: string
+  content: string | null
+  type: string
+  isActive: boolean
+  expiresAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+interface SerializedEvent {
+  id: string
+  title: string
+  description: string | null
+  location: string | null
+  startDate: string
+  endDate: string | null
+  createdAt: string
+  updatedAt: string
+}
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -32,8 +54,8 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 }
 
 interface Props {
-  announcements: Announcement[]
-  events: SchoolEvent[]
+  announcements: SerializedAnnouncement[]
+  events: SerializedEvent[]
 }
 
 export function AnnouncementEventSection({ announcements, events }: Props) {

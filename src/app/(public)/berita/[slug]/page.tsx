@@ -9,13 +9,14 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
 }
 
-function formatDate(date: Date | null): string {
+function formatDate(date: Date | string | null): string {
   if (!date) return ""
+  const d = typeof date === "string" ? new Date(date) : date
   return new Intl.DateTimeFormat("id-ID", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(date)
+  }).format(d)
 }
 
 export async function generateMetadata({

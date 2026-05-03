@@ -13,6 +13,11 @@ import type { SiteSettings, SiteIdentity, SiteContact, SiteSocial, SiteFooter } 
 //
 // Each cache entry has a tag so it can be invalidated
 // when admin updates data via server actions.
+//
+// IMPORTANT: unstable_cache uses JSON.stringify internally.
+// Date objects become strings after serialization. All fetch
+// functions MUST convert Dates to ISO strings before returning,
+// so data types are consistent on both cache-miss and cache-hit.
 // ============================================
 
 // ─── Menu Items ──────────────────────────────────────────────
@@ -90,24 +95,34 @@ const DEFAULT_FOOTER: SiteFooter = {
 }
 
 async function fetchSiteSettings(): Promise<SiteSettings> {
-  const records = await prisma.siteSettings.findMany({
-    where: {
-      key: {
-        in: ["site.identity", "site.contact", "site.social", "site.footer"]
+  try {
+    const records = await prisma.siteSettings.findMany({
+      where: {
+        key: {
+          in: ["site.identity", "site.contact", "site.social", "site.footer"]
+        }
       }
+    })
+
+    const settingsMap = new Map<string, unknown>()
+    for (const record of records) {
+      settingsMap.set(record.key, record.value)
     }
-  })
 
-  const settingsMap = new Map<string, unknown>()
-  for (const record of records) {
-    settingsMap.set(record.key, record.value)
-  }
-
-  return {
-    identity: (settingsMap.get("site.identity") as SiteIdentity) ?? DEFAULT_IDENTITY,
-    contact: (settingsMap.get("site.contact") as SiteContact) ?? DEFAULT_CONTACT,
-    social: (settingsMap.get("site.social") as SiteSocial) ?? DEFAULT_SOCIAL,
-    footer: (settingsMap.get("site.footer") as SiteFooter) ?? DEFAULT_FOOTER,
+    return {
+      identity: (settingsMap.get("site.identity") as SiteIdentity) ?? DEFAULT_IDENTITY,
+      contact: (settingsMap.get("site.contact") as SiteContact) ?? DEFAULT_CONTACT,
+      social: (settingsMap.get("site.social") as SiteSocial) ?? DEFAULT_SOCIAL,
+      footer: (settingsMap.get("site.footer") as SiteFooter) ?? DEFAULT_FOOTER,
+    }
+  } catch (error) {
+    console.error("[fetchSiteSettings] Error:", error)
+    return {
+      identity: DEFAULT_IDENTITY,
+      contact: DEFAULT_CONTACT,
+      social: DEFAULT_SOCIAL,
+      footer: DEFAULT_FOOTER,
+    }
   }
 }
 
@@ -124,9 +139,20 @@ export const getSiteSettings = unstable_cache(
 // ─── Hero Content ────────────────────────────────────────────
 
 async function fetchHeroContent() {
-  return prisma.institutionalContent.findUnique({
-    where: { section: "HERO" },
-  })
+  try {
+    const record = await prisma.institutionalContent.findUnique({
+      where: { section: "HERO" },
+    })
+    if (!record) return null
+    // Convert Date to string for safe serialization
+    return {
+      ...record,
+      updatedAt: record.updatedAt.toISOString(),
+    }
+  } catch (error) {
+    console.error("[fetchHeroContent] Error:", error)
+    return null
+  }
 }
 
 export const getHeroContent = unstable_cache(
@@ -138,9 +164,20 @@ export const getHeroContent = unstable_cache(
 // ─── Profile Content ─────────────────────────────────────────
 
 async function fetchProfileContent() {
-  return prisma.institutionalContent.findUnique({
-    where: { section: "PROFILE" },
-  })
+  try {
+    const record = await prisma.institutionalContent.findUnique({
+      where: { section: "PROFILE" },
+    })
+    if (!record) return null
+    // Convert Date to string for safe serialization
+    return {
+      ...record,
+      updatedAt: record.updatedAt.toISOString(),
+    }
+  } catch (error) {
+    console.error("[fetchProfileContent] Error:", error)
+    return null
+  }
 }
 
 export const getProfileContent = unstable_cache(
@@ -152,9 +189,20 @@ export const getProfileContent = unstable_cache(
 // ─── Principal Message ──────────────────────────────────────
 
 async function fetchPrincipalContent() {
-  return prisma.institutionalContent.findUnique({
-    where: { section: "PRINCIPAL_MESSAGE" },
-  })
+  try {
+    const record = await prisma.institutionalContent.findUnique({
+      where: { section: "PRINCIPAL_MESSAGE" },
+    })
+    if (!record) return null
+    // Convert Date to string for safe serialization
+    return {
+      ...record,
+      updatedAt: record.updatedAt.toISOString(),
+    }
+  } catch (error) {
+    console.error("[fetchPrincipalContent] Error:", error)
+    return null
+  }
 }
 
 export const getPrincipalContent = unstable_cache(
@@ -166,15 +214,20 @@ export const getPrincipalContent = unstable_cache(
 // ─── Staff List ──────────────────────────────────────────────
 
 async function fetchPublicStaff() {
-  const staff = await prisma.staff.findMany({
-    orderBy: { order: "asc" },
-  })
-  return staff.map((s) => ({
-    id: s.id,
-    name: s.name,
-    position: s.position,
-    photoUrl: s.photoUrl,
-  }))
+  try {
+    const staff = await prisma.staff.findMany({
+      orderBy: { order: "asc" },
+    })
+    return staff.map((s) => ({
+      id: s.id,
+      name: s.name,
+      position: s.position,
+      photoUrl: s.photoUrl,
+    }))
+  } catch (error) {
+    console.error("[fetchPublicStaff] Error:", error)
+    return []
+  }
 }
 
 export const getPublicStaff = unstable_cache(
@@ -186,10 +239,25 @@ export const getPublicStaff = unstable_cache(
 // ─── Gallery Images ─────────────────────────────────────────
 
 async function fetchPublicGallery() {
-  return prisma.galleryImage.findMany({
-    orderBy: { order: "asc" },
-    take: 8,
-  })
+  try {
+    const images = await prisma.galleryImage.findMany({
+      orderBy: { order: "asc" },
+      take: 8,
+    })
+    // Convert Date fields to strings for safe serialization
+    return images.map((img) => ({
+      id: img.id,
+      title: img.title,
+      description: img.description,
+      imageUrl: img.imageUrl,
+      order: img.order,
+      createdAt: img.createdAt.toISOString(),
+      updatedAt: img.updatedAt.toISOString(),
+    }))
+  } catch (error) {
+    console.error("[fetchPublicGallery] Error:", error)
+    return []
+  }
 }
 
 export const getPublicGallery = unstable_cache(
@@ -201,19 +269,29 @@ export const getPublicGallery = unstable_cache(
 // ─── Latest Articles ────────────────────────────────────────
 
 async function fetchLatestArticles() {
-  return prisma.article.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { publishedAt: "desc" },
-    take: 3,
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      thumbnailUrl: true,
-      publishedAt: true,
-      category: { select: { name: true } },
-    },
-  })
+  try {
+    const articles = await prisma.article.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        thumbnailUrl: true,
+        publishedAt: true,
+        category: { select: { name: true } },
+      },
+    })
+    // Convert Date fields to strings for safe serialization
+    return articles.map((a) => ({
+      ...a,
+      publishedAt: a.publishedAt ? a.publishedAt.toISOString() : null,
+    }))
+  } catch (error) {
+    console.error("[fetchLatestArticles] Error:", error)
+    return []
+  }
 }
 
 export const getLatestArticles = unstable_cache(
@@ -225,14 +303,30 @@ export const getLatestArticles = unstable_cache(
 // ─── Active Announcements ───────────────────────────────────
 
 async function fetchActiveAnnouncements() {
-  const now = new Date()
-  return prisma.announcement.findMany({
-    where: {
-      isActive: true,
-      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
-    },
-    orderBy: { createdAt: "desc" },
-  })
+  try {
+    const now = new Date()
+    const announcements = await prisma.announcement.findMany({
+      where: {
+        isActive: true,
+        OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+      },
+      orderBy: { createdAt: "desc" },
+    })
+    // Convert Date fields to strings for safe serialization
+    return announcements.map((a) => ({
+      id: a.id,
+      title: a.title,
+      content: a.content,
+      type: a.type,
+      isActive: a.isActive,
+      expiresAt: a.expiresAt ? a.expiresAt.toISOString() : null,
+      createdAt: a.createdAt.toISOString(),
+      updatedAt: a.updatedAt.toISOString(),
+    }))
+  } catch (error) {
+    console.error("[fetchActiveAnnouncements] Error:", error)
+    return []
+  }
 }
 
 export const getActiveAnnouncementsCached = unstable_cache(
@@ -244,18 +338,34 @@ export const getActiveAnnouncementsCached = unstable_cache(
 // ─── Upcoming Events ────────────────────────────────────────
 
 async function fetchUpcomingEvents() {
-  const now = new Date()
-  now.setHours(0, 0, 0, 0)
-  return prisma.schoolEvent.findMany({
-    where: {
-      OR: [
-        { startDate: { gte: now } },
-        { endDate: { gte: now } },
-      ],
-    },
-    orderBy: { startDate: "asc" },
-    take: 5,
-  })
+  try {
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    const events = await prisma.schoolEvent.findMany({
+      where: {
+        OR: [
+          { startDate: { gte: now } },
+          { endDate: { gte: now } },
+        ],
+      },
+      orderBy: { startDate: "asc" },
+      take: 5,
+    })
+    // Convert Date fields to strings for safe serialization
+    return events.map((e) => ({
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location,
+      startDate: e.startDate.toISOString(),
+      endDate: e.endDate ? e.endDate.toISOString() : null,
+      createdAt: e.createdAt.toISOString(),
+      updatedAt: e.updatedAt.toISOString(),
+    }))
+  } catch (error) {
+    console.error("[fetchUpcomingEvents] Error:", error)
+    return []
+  }
 }
 
 export const getUpcomingEventsCached = unstable_cache(
@@ -263,4 +373,3 @@ export const getUpcomingEventsCached = unstable_cache(
   ["upcoming-events"],
   { tags: ["events"], revalidate: 300 } // 5 min — events have time sensitivity
 )
-
