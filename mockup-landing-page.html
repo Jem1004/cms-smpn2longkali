@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockup — Landing Page CMS Sekolah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { navy: '#002244', accent: '#FFC107' },
+          fontFamily: { sans: ['system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .fade-in { transform: translateY(20px); }
+  </style>
+</head>
+<body class="bg-white font-sans text-slate-800">
+
+  <!-- ============================================ -->
+  <!-- NAVBAR -->
+  <!-- ============================================ -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-black/[0.04]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center h-20">
+        <a href="#" class="flex items-center gap-3 mr-auto">
+          <div class="w-11 h-11 bg-navy rounded-xl flex items-center justify-center text-white font-bold text-xs">SM</div>
+          <div>
+            <span class="font-bold text-[15px] text-navy block leading-tight">SMK MUTU PPU</span>
+            <span class="text-[10px] text-slate-400 font-medium block mt-0.5">Kamu Beda, Kamu SMK Mutu</span>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center ml-auto gap-1">
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-navy hover:text-white transition-all">Beranda</a>
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-navy hover:text-white transition-all">Profil</a>
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-navy hover:text-white transition-all">Jurusan</a>
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-navy hover:text-white transition-all">Berita</a>
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-medium text-slate-600 hover:bg-navy hover:text-white transition-all">Kontak</a>
+          <a href="#" class="px-4 py-2 rounded-lg text-[14px] font-bold bg-accent text-navy hover:bg-yellow-400 transition-all">SPMB 2026</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================ -->
+  <!-- HERO SECTION -->
+  <!-- ============================================ -->
+  <section class="relative min-h-[400px] md:min-h-[520px] bg-navy overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/70 to-navy/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200')] bg-cover bg-center opacity-40"></div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[400px] md:min-h-[520px]">
+      <div class="max-w-xl py-16">
+        <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-accent bg-accent/10 border border-accent/20 px-3 py-1 rounded-full mb-4">Informasi Sekolah</span>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">Selamat Datang di SMK Mutu PPU</h1>
+        <p class="text-white/60 text-sm md:text-base leading-relaxed mb-8 max-w-md">Mencetak generasi unggul, kompeten, dan siap bersaing di era global.</p>
+        <a href="#" class="inline-flex items-center gap-2 bg-accent hover:bg-yellow-400 text-navy font-bold text-sm px-6 py-3 rounded-xl transition-colors">
+          Lihat Berita
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide indicators -->
+    <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2.5 z-30">
+      <button class="h-1 w-10 rounded-full bg-accent"></button>
+      <button class="h-1 w-5 rounded-full bg-white/30"></button>
+      <button class="h-1 w-5 rounded-full bg-white/30"></button>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PROFIL + BERITA -->
+  <!-- ============================================ -->
+  <section class="bg-white py-16 md:py-24 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+        
+        <!-- Profil -->
+        <div class="w-full lg:w-7/12">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+            <span class="w-1.5 h-7 bg-navy rounded-full"></span>
+            Profil Sekolah
+          </h2>
+          <div class="aspect-video bg-slate-100 rounded-xl mb-6 flex items-center justify-center text-slate-400 border">
+            <svg class="w-16 h-16 opacity-30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <p class="text-slate-600 text-sm leading-relaxed">Sekolah kami berkomitmen untuk mencetak lulusan yang kompeten, berkarakter, dan siap menghadapi tantangan dunia kerja maupun dunia usaha.</p>
+        </div>
+
+        <!-- Berita (1 besar + 2 kecil) -->
+        <div class="w-full lg:w-5/12">
+          <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+            <h2 class="text-xl font-bold text-navy">Berita Terbaru</h2>
+            <a href="#" class="text-sm font-semibold text-navy hover:text-blue-600">Selengkapnya →</a>
+          </div>
+
+          <!-- Card besar -->
+          <a href="#" class="block rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow group mb-4">
+            <div class="aspect-[16/9] bg-gradient-to-br from-slate-200 to-slate-100 relative">
+              <span class="absolute top-3 left-3 text-[10px] font-bold bg-navy/80 text-accent px-2 py-0.5 rounded">Prestasi</span>
+            </div>
+            <div class="p-4">
+              <h4 class="font-bold text-navy text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">UKK TKJ 2026 Berjalan Dengan Sukses</h4>
+              <p class="text-xs text-gray-400 mt-2">25 April 2026</p>
+            </div>
+          </a>
+
+          <!-- 2 list kecil -->
+          <div class="space-y-3">
+            <a href="#" class="flex gap-4 group items-center">
+              <div class="w-24 h-16 bg-slate-100 rounded-lg shrink-0"></div>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug">Kunjungan Industri Jurusan TKJ</p>
+                <p class="text-xs text-slate-400 mt-1">10 April 2026</p>
+              </div>
+            </a>
+            <a href="#" class="flex gap-4 group items-center">
+              <div class="w-24 h-16 bg-slate-100 rounded-lg shrink-0"></div>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug">Juara Umum LKS Tingkat Kota</p>
+                <p class="text-xs text-slate-400 mt-1">5 April 2026</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PRAKATA KEPALA SEKOLAH -->
+  <!-- ============================================ -->
+  <section class="relative text-white overflow-hidden bg-navy">
+    <div class="absolute top-0 right-0 bottom-0 w-[42%] hidden lg:block">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-300 to-slate-200"></div>
+      <div class="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-navy to-transparent"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="py-14 md:py-20 lg:w-[55%]">
+        <h2 class="text-2xl md:text-3xl font-bold mb-5">Prakata Kepala Sekolah</h2>
+        <p class="text-white/75 text-sm md:text-[15px] leading-relaxed">Era globalisasi dengan segala implikasinya menjadi salah satu pemicu cepatnya perubahan yang terjadi pada berbagai aspek kehidupan masyarakat. Pendidikan merupakan investasi jangka panjang yang hasilnya tidak dapat dilihat dan dirasakan secara instan.</p>
+        <div class="mt-6">
+          <p class="font-bold text-base">Nama Kepala Sekolah</p>
+          <p class="text-sm text-accent">Kepala Sekolah</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- AGENDA + PENGUMUMAN -->
+  <!-- ============================================ -->
+  <section class="bg-[#f5f7fa] py-16 md:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Agenda -->
+        <div class="bg-white rounded-2xl overflow-hidden">
+          <div class="px-6 py-5 flex items-center justify-between">
+            <h2 class="text-lg font-bold text-navy">Agenda</h2>
+            <a href="#" class="text-xs font-medium text-slate-400 hover:text-navy">Semua →</a>
+          </div>
+          <div class="px-6 pb-5 space-y-0">
+            <div class="flex items-start gap-4 py-4 border-t border-gray-50">
+              <div class="w-12 h-12 rounded-lg bg-navy text-white flex flex-col items-center justify-center shrink-0">
+                <span class="text-base font-bold leading-none">28</span>
+                <span class="text-[8px] uppercase tracking-wide font-semibold text-accent mt-0.5">Apr</span>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-900 text-sm">Ujian Akhir Semester Genap</p>
+                <p class="text-slate-400 text-xs mt-0.5">Aula Sekolah</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 py-4 border-t border-gray-50">
+              <div class="w-12 h-12 rounded-lg bg-navy text-white flex flex-col items-center justify-center shrink-0">
+                <span class="text-base font-bold leading-none">15</span>
+                <span class="text-[8px] uppercase tracking-wide font-semibold text-accent mt-0.5">Mei</span>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-900 text-sm">Penerimaan Rapor Semester 2</p>
+                <p class="text-slate-400 text-xs mt-0.5">Ruang Kelas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pengumuman -->
+        <div class="bg-white rounded-2xl overflow-hidden">
+          <div class="px-6 py-5 flex items-center justify-between">
+            <h2 class="text-lg font-bold text-navy">Pengumuman</h2>
+            <a href="#" class="text-xs font-medium text-slate-400 hover:text-navy">Semua →</a>
+          </div>
+          <div class="px-6 pb-5 space-y-0">
+            <div class="py-4 border-t border-gray-50">
+              <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-navy/30 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                <div>
+                  <p class="font-semibold text-slate-900 text-sm">Pendaftaran SPMB 2026 Dibuka</p>
+                  <p class="text-slate-500 text-xs mt-1 line-clamp-2">Pendaftaran siswa baru tahun ajaran 2026/2027 telah resmi dibuka...</p>
+                  <p class="text-slate-300 text-xs mt-1.5">20 Apr 2026</p>
+                </div>
+              </div>
+            </div>
+            <div class="py-4 border-t border-gray-50">
+              <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-navy/30 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                <div>
+                  <p class="font-semibold text-slate-900 text-sm">Libur Hari Raya Idul Fitri</p>
+                  <p class="text-slate-500 text-xs mt-1 line-clamp-2">Sekolah libur tanggal 28 Maret - 7 April 2026...</p>
+                  <p class="text-slate-300 text-xs mt-1.5">15 Mar 2026</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- GURU & TENDIK (Carousel Preview) -->
+  <!-- ============================================ -->
+  <section class="bg-white py-16 md:py-24 border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Guru & Tenaga Kependidikan</h2>
+        <p class="text-slate-500 mt-2 text-sm">Mengenal lebih dekat tim profesional kami</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div class="group">
+          <div class="aspect-[4/5] bg-slate-100 rounded-xl mb-2 flex items-center justify-center text-slate-300 text-2xl font-bold">AB</div>
+          <p class="text-sm font-semibold text-slate-800 text-center">Ahmad Budiman</p>
+          <p class="text-xs text-navy/70 text-center mt-0.5">Guru Produktif</p>
+        </div>
+        <div class="group">
+          <div class="aspect-[4/5] bg-slate-100 rounded-xl mb-2 flex items-center justify-center text-slate-300 text-2xl font-bold">SR</div>
+          <p class="text-sm font-semibold text-slate-800 text-center">Siti Rahmawati</p>
+          <p class="text-xs text-navy/70 text-center mt-0.5">Waka Kurikulum</p>
+        </div>
+        <div class="group">
+          <div class="aspect-[4/5] bg-slate-100 rounded-xl mb-2 flex items-center justify-center text-slate-300 text-2xl font-bold">BW</div>
+          <p class="text-sm font-semibold text-slate-800 text-center">Bambang Wijaya</p>
+          <p class="text-xs text-navy/70 text-center mt-0.5">Kepala Bengkel</p>
+        </div>
+        <div class="group">
+          <div class="aspect-[4/5] bg-slate-100 rounded-xl mb-2 flex items-center justify-center text-slate-300 text-2xl font-bold">ES</div>
+          <p class="text-sm font-semibold text-slate-800 text-center">Endang Sulastri</p>
+          <p class="text-xs text-navy/70 text-center mt-0.5">Humas</p>
+        </div>
+        <div class="group">
+          <div class="aspect-[4/5] bg-slate-100 rounded-xl mb-2 flex items-center justify-center text-slate-300 text-2xl font-bold">AK</div>
+          <p class="text-sm font-semibold text-slate-800 text-center">Agus Kurniawan</p>
+          <p class="text-xs text-navy/70 text-center mt-0.5">Guru Adaptif</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- GALERI -->
+  <!-- ============================================ -->
+  <section class="bg-slate-50 py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Galeri Sekolah</h2>
+          <p class="text-slate-500 mt-2 text-sm">Dokumentasi kegiatan dan fasilitas</p>
+        </div>
+        <a href="#" class="text-sm font-semibold text-navy hover:text-blue-600">Lihat Semua →</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+        <div class="aspect-square bg-slate-200 rounded-xl"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================ -->
+  <footer class="bg-navy border-t-4 border-accent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Tentang -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white font-bold text-sm">SM</div>
+            <span class="text-white font-bold text-lg">SMK Mutu PPU</span>
+          </div>
+          <p class="text-white/60 text-sm leading-relaxed mb-4">Sekolah kami berkomitmen untuk mencetak lulusan yang kompeten dan berkarakter.</p>
+          <div class="flex gap-2">
+            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/50 hover:bg-accent hover:text-navy transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/50 hover:bg-accent hover:text-navy transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div>
+          <h3 class="text-white font-semibold text-base mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Tautan Cepat
+          </h3>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-white/60 text-sm hover:text-accent transition-colors">BKK Sekolah</a></li>
+            <li><a href="#" class="text-white/60 text-sm hover:text-accent transition-colors">LSP Sekolah</a></li>
+            <li><a href="#" class="text-white/60 text-sm hover:text-accent transition-colors">PPDB Online</a></li>
+          </ul>
+        </div>
+
+        <!-- Maps -->
+        <div>
+          <h3 class="text-white font-semibold text-base mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Lokasi
+          </h3>
+          <div class="rounded-xl overflow-hidden bg-white/5 border border-white/10 h-48 flex items-center justify-center text-white/20 text-sm">
+            Google Maps Embed
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/5 bg-black/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-3">
+        <p class="text-white/40 text-xs">© 2026 SMK Mutu PPU. All rights reserved.</p>
+        <p class="text-white/30 text-[10px]">developed by <span class="text-white/50 font-semibold">Astro Digital Solution</span></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

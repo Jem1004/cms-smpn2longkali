@@ -1,9 +1,10 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
-import { Upload, X, Loader2, ImageIcon } from "lucide-react"
+import { Upload, X, Loader2, ImageIcon, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { compressImage, isCompressibleImage } from "@/lib/image-compression"
 import type { PresignResult } from "@/types"
 
 interface ImageUploaderProps {
@@ -50,14 +51,32 @@ export function ImageUploader({
   }
 
   async function uploadFile(file: File): Promise<string> {
-    // 1. Request pre-signed URL
+    // 1. Compress image to WebP (client-side) before uploading
+    let fileToUpload = file
+    if (isCompressibleImage(file)) {
+      try {
+        fileToUpload = await compressImage(file)
+        if (fileToUpload !== file) {
+          const savedKB = Math.round((file.size - fileToUpload.size) / 1024)
+          console.log(
+            `[ImageUploader] Compressed ${file.name}: ${Math.round(file.size / 1024)}KB → ${Math.round(fileToUpload.size / 1024)}KB (hemat ${savedKB}KB)`
+          )
+        }
+      } catch (err) {
+        // If compression fails, proceed with original file
+        console.warn("[ImageUploader] Kompresi gagal, gunakan file asli:", err)
+        fileToUpload = file
+      }
+    }
+
+    // 2. Request pre-signed URL
     const presignRes = await fetch("/api/upload/presign", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        filename: file.name,
-        contentType: file.type,
-        size: file.size,
+        filename: fileToUpload.name,
+        contentType: fileToUpload.type,
+        size: fileToUpload.size,
       }),
     })
 
@@ -68,11 +87,11 @@ export function ImageUploader({
 
     const { uploadUrl, fileUrl } = (await presignRes.json()) as PresignResult
 
-    // 2. Upload directly to S3
+    // 3. Upload compressed file directly to S3
     const uploadRes = await fetch(uploadUrl, {
       method: "PUT",
-      headers: { "Content-Type": file.type },
-      body: file,
+      headers: { "Content-Type": fileToUpload.type },
+      body: fileToUpload,
     })
 
     if (!uploadRes.ok) {
@@ -210,7 +229,7 @@ export function ImageUploader({
         {isUploading ? (
           <>
             <Loader2 className="mb-2 h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Mengunggah...</p>
+            <p className="text-sm text-muted-foreground">Mengompresi & mengunggah...</p>
           </>
         ) : (
           <>
