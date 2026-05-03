@@ -228,3 +228,29 @@ model Page {
   @@index([slug])
   @@index([isPublished])
 }
+
+// ============================================
+// Graduation Announcement
+// ============================================
+
+enum GraduationStatus {
+  LULUS
+  TIDAK_LULUS
+}
+
+model GraduationStudent {
+  id           String           @id @default(cuid())
+  nis          String
+  nisn         String
+  namaLengkap  String
+  kelas        String
+  jurusan      String
+  status       GraduationStatus @default(LULUS)
+  tahunAjaran  String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([nis])
+  @@index([nisn])
+  @@index([tahunAjaran])
+}

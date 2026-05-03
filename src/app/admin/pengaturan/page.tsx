@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { hasPermission, type Role } from "@/lib/rbac"
 import { getSettingsForAdmin } from "@/actions/settings"
 import { isSpmbEnabled } from "@/actions/registration"
+import { isGraduationEnabled } from "@/actions/graduation"
 import { SettingsForm } from "@/components/admin/settings-form"
 
 export const metadata = {
@@ -23,9 +24,10 @@ export default async function PengaturanPage() {
     redirect("/403")
   }
 
-  const [result, spmbEnabled] = await Promise.all([
+  const [result, spmbEnabled, graduationEnabled] = await Promise.all([
     getSettingsForAdmin(),
     isSpmbEnabled(),
+    isGraduationEnabled(),
   ])
   
   if (!result.success) {
@@ -36,5 +38,5 @@ export default async function PengaturanPage() {
     )
   }
 
-  return <SettingsForm initialSettings={result.data} spmbEnabled={spmbEnabled} />
+  return <SettingsForm initialSettings={result.data} spmbEnabled={spmbEnabled} graduationEnabled={graduationEnabled} />
 }

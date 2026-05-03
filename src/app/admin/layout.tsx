@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { AdminSidebar } from "@/components/admin/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { isSpmbEnabled } from "@/actions/registration"
+import { isGraduationEnabled } from "@/actions/graduation"
 import type { SessionWithRole } from "@/types"
 
 export const metadata = {
@@ -21,7 +22,7 @@ export default async function AdminLayout({
     redirect("/login")
   }
 
-  const [spmbEnabled] = await Promise.all([isSpmbEnabled()])
+  const [spmbEnabled, graduationEnabled] = await Promise.all([isSpmbEnabled(), isGraduationEnabled()])
 
   const user = {
     name: session.user.name,
@@ -31,7 +32,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-slate-50/40 selection:bg-blue-100">
-      <AdminSidebar user={user} spmbEnabled={spmbEnabled}>
+      <AdminSidebar user={user} spmbEnabled={spmbEnabled} graduationEnabled={graduationEnabled}>
         <div className="p-4 sm:p-6 lg:p-10">{children}</div>
       </AdminSidebar>
       <Toaster />

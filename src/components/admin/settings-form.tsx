@@ -12,14 +12,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ImageUploader } from "@/components/admin/image-uploader"
 import { updateIdentity, updateContact, updateSocial, updateFooter } from "@/actions/settings"
 import { toggleSpmbEnabled } from "@/actions/registration"
+import { toggleGraduationEnabled } from "@/actions/graduation"
 import type { SiteSettings, SiteIdentity, SiteContact, SiteSocial, SiteFooter, SiteFooterLink } from "@/types"
 
 interface SettingsFormProps {
   initialSettings: SiteSettings
   spmbEnabled: boolean
+  graduationEnabled: boolean
 }
 
-export function SettingsForm({ initialSettings, spmbEnabled }: SettingsFormProps) {
+export function SettingsForm({ initialSettings, spmbEnabled, graduationEnabled }: SettingsFormProps) {
   const [isPending, startTransition] = useTransition()
   
   // Identity state
@@ -39,6 +41,7 @@ export function SettingsForm({ initialSettings, spmbEnabled }: SettingsFormProps
 
   // Feature state
   const [spmbOn, setSpmbOn] = useState(spmbEnabled)
+  const [graduationOn, setGraduationOn] = useState(graduationEnabled)
 
   function handleSaveIdentity() {
     setIdentityErrors({})
@@ -85,6 +88,15 @@ export function SettingsForm({ initialSettings, spmbEnabled }: SettingsFormProps
       if (!result.success) { toast.error(result.error); return }
       setSpmbOn(!spmbOn)
       toast.success(spmbOn ? "Fitur SPMB dinonaktifkan" : "Fitur SPMB diaktifkan")
+    })
+  }
+
+  function handleToggleGraduation() {
+    startTransition(async () => {
+      const result = await toggleGraduationEnabled(!graduationOn)
+      if (!result.success) { toast.error(result.error); return }
+      setGraduationOn(!graduationOn)
+      toast.success(graduationOn ? "Fitur Kelulusan dinonaktifkan" : "Fitur Kelulusan diaktifkan")
     })
   }
 
@@ -581,6 +593,29 @@ export function SettingsForm({ initialSettings, spmbEnabled }: SettingsFormProps
               >
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
                   spmbOn ? "translate-x-6" : "translate-x-0"
+                }`} />
+              </button>
+            </div>
+
+            {/* Kelulusan Toggle */}
+            <div className="flex items-start justify-between gap-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+              <div>
+                <p className="font-semibold text-slate-800">Pengumuman Kelulusan</p>
+                <p className="text-xs text-slate-400 mt-1">
+                  Aktifkan untuk menampilkan menu kelulusan di sidebar admin dan halaman <code className="bg-slate-100 px-1 rounded">/kelulusan</code> di publik.
+                  Nonaktifkan jika sekolah tidak menggunakan fitur ini.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleToggleGraduation}
+                disabled={isPending}
+                className={`relative shrink-0 w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
+                  graduationOn ? "bg-[#002244]" : "bg-slate-300"
+                }`}
+              >
+                <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
+                  graduationOn ? "translate-x-6" : "translate-x-0"
                 }`} />
               </button>
             </div>

@@ -191,6 +191,7 @@ const STATIC_ROUTES = [
   { label: "Agenda", url: "/agenda" },
   { label: "Kontak & Pengaduan", url: "/kontak" },
   { label: "Pendaftaran Siswa", url: "/daftar" },
+  { label: "Kelulusan", url: "/kelulusan" },
 ]
 
 // ─── URL Validation ──────────────────────────────────────────────

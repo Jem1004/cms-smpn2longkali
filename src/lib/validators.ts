@@ -96,8 +96,8 @@ export const contentSectionSchemas = {
 
 export const fileUploadSchema = z.object({
   filename: z.string().min(1, "Nama file wajib diisi"),
-  contentType: z.enum(["image/jpeg", "image/png", "image/webp"], {
-    message: "Format file tidak didukung. Gunakan JPG, PNG, atau WebP",
+  contentType: z.enum(["image/jpeg", "image/png", "image/webp", "application/pdf"], {
+    message: "Format file tidak didukung. Gunakan JPG, PNG, WebP, atau PDF",
   }),
   size: z
     .number()

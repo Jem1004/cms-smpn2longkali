@@ -19,6 +19,7 @@ import {
   CalendarDays,
   Globe,
   KeyRound,
+  Award,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -74,6 +75,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Pengumuman & Agenda", href: "/admin/pengumuman", icon: Megaphone, permission: "content:manage" },
       { label: "Pendaftaran Siswa", href: "/admin/pendaftaran-siswa", icon: CalendarDays, permission: "content:manage" },
+      { label: "Kelulusan", href: "/admin/kelulusan", icon: Award, permission: "content:manage" },
     ],
   },
   {
@@ -113,6 +115,7 @@ interface AdminSidebarProps {
     role: string
   }
   spmbEnabled?: boolean
+  graduationEnabled?: boolean
   children?: React.ReactNode
 }
 
@@ -222,21 +225,23 @@ function NavGroupLinks({ groups, onNavigate, isMinimized }: { groups: NavGroup[]
   )
 }
 
-export function AdminSidebar({ user, spmbEnabled = false, children }: AdminSidebarProps) {
+export function AdminSidebar({ user, spmbEnabled = false, graduationEnabled = false, children }: AdminSidebarProps) {
   const [open, setOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
 
-  // Filter out SPMB menu if feature is disabled
+  // Filter out SPMB / Kelulusan menu if feature is disabled
   const filteredGroups = getVisibleGroups(user.role).map((group) => ({
     ...group,
     items: group.items.filter((item) => {
       if (item.href === "/admin/pendaftaran-siswa") return spmbEnabled
+      if (item.href === "/admin/kelulusan") return graduationEnabled
       return true
     }),
   })).filter((group) => group.items.length > 0)
 
   const visibleItems = getVisibleItems(user.role).filter((item) => {
     if (item.href === "/admin/pendaftaran-siswa") return spmbEnabled
+    if (item.href === "/admin/kelulusan") return graduationEnabled
     return true
   })
 
