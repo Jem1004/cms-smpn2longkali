@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { menuItemSchema } from "@/lib/validators"
@@ -114,6 +114,7 @@ export async function saveMenuItems(items: MenuItemForm[]): Promise<ActionResult
     if (!result.success) return result
     revalidatePath("/admin/menu")
     revalidatePath("/")
+    revalidateTag("menu-items")
     return { success: true, data: result.data }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -127,6 +128,7 @@ export async function deleteMenuItem(id: string): Promise<ActionResult<null>> {
     await prisma.menuItem.delete({ where: { id } })
     revalidatePath("/admin/menu")
     revalidatePath("/")
+    revalidateTag("menu-items")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }

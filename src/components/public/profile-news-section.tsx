@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { prisma } from "@/lib/prisma"
-import { getSiteSettings } from "@/lib/queries"
+import { getProfileContent, getLatestArticles, getSiteSettings } from "@/lib/queries"
 import { Newspaper } from "lucide-react"
 import type { ProfileContent } from "@/types"
 
@@ -39,20 +38,8 @@ function getYouTubeEmbedUrl(url: string): string | null {
 
 export async function ProfileNewsSection() {
   const [profileRecord, latestArticles, siteSettings] = await Promise.all([
-    prisma.institutionalContent.findUnique({ where: { section: "PROFILE" } }),
-    prisma.article.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: { publishedAt: "desc" },
-      take: 3,
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        thumbnailUrl: true,
-        publishedAt: true,
-        category: { select: { name: true } },
-      },
-    }),
+    getProfileContent(),
+    getLatestArticles(),
     getSiteSettings(),
   ])
 

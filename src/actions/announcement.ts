@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { z } from "zod"
@@ -75,6 +75,7 @@ export async function createAnnouncement(data: {
     revalidatePath("/admin/pengumuman")
     revalidatePath("/")
     revalidatePath("/pengumuman")
+    revalidateTag("announcements")
     return { success: true, data: item }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -105,6 +106,7 @@ export async function updateAnnouncement(
     revalidatePath("/admin/pengumuman")
     revalidatePath("/")
     revalidatePath("/pengumuman")
+    revalidateTag("announcements")
     return { success: true, data: item }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -119,6 +121,7 @@ export async function deleteAnnouncement(id: string): Promise<ActionResult<null>
     revalidatePath("/admin/pengumuman")
     revalidatePath("/")
     revalidatePath("/pengumuman")
+    revalidateTag("announcements")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -133,6 +136,7 @@ export async function toggleAnnouncement(id: string, isActive: boolean): Promise
     revalidatePath("/admin/pengumuman")
     revalidatePath("/")
     revalidatePath("/pengumuman")
+    revalidateTag("announcements")
     return { success: true, data: item }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }

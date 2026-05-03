@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { prisma } from "@/lib/prisma"
+import { getPrincipalContent } from "@/lib/queries"
 import type { PrincipalContent } from "@/types"
 
 const DEFAULT_PRINCIPAL: PrincipalContent = {
@@ -11,9 +11,7 @@ const DEFAULT_PRINCIPAL: PrincipalContent = {
 }
 
 export async function PrincipalSection() {
-  const record = await prisma.institutionalContent.findUnique({
-    where: { section: "PRINCIPAL_MESSAGE" },
-  })
+  const record = await getPrincipalContent()
 
   const principal: PrincipalContent = record
     ? (record.content as unknown as PrincipalContent)

@@ -1,13 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import { prisma } from "@/lib/prisma"
+import { getPublicGallery } from "@/lib/queries"
 import { ArrowUpRight } from "lucide-react"
 
 export async function GallerySection() {
-  const images = await prisma.galleryImage.findMany({
-    orderBy: { order: "asc" },
-    take: 8,
-  })
+  const images = await getPublicGallery()
 
   if (images.length === 0) {
     return null

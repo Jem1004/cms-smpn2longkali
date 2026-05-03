@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { articleSchema } from "@/lib/validators"
@@ -102,6 +102,7 @@ export async function createArticle(data: {
 
     revalidatePath("/admin/berita")
     revalidatePath("/")
+    revalidateTag("articles")
     return { success: true, data: article }
   } catch (error) {
     if (error instanceof Error) {
@@ -145,6 +146,7 @@ export async function updateArticle(id: string, data: {
 
     revalidatePath("/admin/berita")
     revalidatePath("/")
+    revalidateTag("articles")
     return { success: true, data: article }
   } catch (error) {
     if (error instanceof Error) {
@@ -164,6 +166,7 @@ export async function publishArticle(id: string): Promise<ActionResult<Article>>
     })
     revalidatePath("/admin/berita")
     revalidatePath("/")
+    revalidateTag("articles")
     return { success: true, data: article }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -177,6 +180,7 @@ export async function deleteArticle(id: string): Promise<ActionResult<null>> {
     await prisma.article.delete({ where: { id } })
     revalidatePath("/admin/berita")
     revalidatePath("/")
+    revalidateTag("articles")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }

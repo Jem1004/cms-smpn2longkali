@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { galleryImageSchema } from "@/lib/validators"
@@ -91,6 +91,7 @@ export async function addGalleryImages(
 
     revalidatePath("/admin/galeri")
     revalidatePath("/")
+    revalidateTag("gallery")
 
     return { success: true, data: created }
   } catch (error) {
@@ -126,6 +127,7 @@ export async function reorderGalleryImages(
 
     revalidatePath("/admin/galeri")
     revalidatePath("/")
+    revalidateTag("gallery")
 
     return { success: true, data: null }
   } catch (error) {
@@ -157,6 +159,7 @@ export async function deleteGalleryImage(id: string): Promise<ActionResult<null>
     await prisma.galleryImage.delete({ where: { id } })
     revalidatePath("/admin/galeri")
     revalidatePath("/")
+    revalidateTag("gallery")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) {

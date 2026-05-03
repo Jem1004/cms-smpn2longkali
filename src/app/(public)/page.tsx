@@ -5,8 +5,7 @@ import { PrincipalSection } from "@/components/public/principal-section"
 import { AnnouncementEventSection } from "@/components/public/announcement-event-section"
 import { GallerySection } from "@/components/public/gallery-section"
 import { StaffSlider } from "@/components/public/staff-slider"
-import { getActiveAnnouncements } from "@/actions/announcement"
-import { getUpcomingEvents } from "@/actions/event"
+import { getActiveAnnouncementsCached, getUpcomingEventsCached } from "@/lib/queries"
 
 export const metadata: Metadata = {
   title: "Beranda",
@@ -15,8 +14,8 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [announcements, events] = await Promise.all([
-    getActiveAnnouncements(),
-    getUpcomingEvents(),
+    getActiveAnnouncementsCached(),
+    getUpcomingEventsCached(),
   ])
 
   return (

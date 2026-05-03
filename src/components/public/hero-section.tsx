@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma"
+import { getHeroContent } from "@/lib/queries"
 import type { HeroContent } from "@/types"
 import { HeroSlider } from "./hero-slider"
 
@@ -17,9 +17,7 @@ const DEFAULT_HERO: HeroContent = {
 }
 
 export async function HeroSection() {
-  const heroRecord = await prisma.institutionalContent.findUnique({
-    where: { section: "HERO" },
-  })
+  const heroRecord = await getHeroContent()
 
   let hero: HeroContent
 

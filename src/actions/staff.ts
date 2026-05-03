@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { staffSchema } from "@/lib/validators"
@@ -36,6 +36,7 @@ export async function createStaff(data: { name: string; position: string; photoU
 
     revalidatePath("/admin/guru")
     revalidatePath("/")
+    revalidateTag("staff")
     return { success: true, data: staff }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -61,6 +62,7 @@ export async function updateStaff(id: string, data: { name: string; position: st
 
     revalidatePath("/admin/guru")
     revalidatePath("/")
+    revalidateTag("staff")
     return { success: true, data: staff }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -86,6 +88,7 @@ export async function deleteStaff(id: string): Promise<ActionResult<null>> {
     await prisma.staff.delete({ where: { id } })
     revalidatePath("/admin/guru")
     revalidatePath("/")
+    revalidateTag("staff")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }

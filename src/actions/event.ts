@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { z } from "zod"
@@ -73,6 +73,7 @@ export async function createEvent(data: {
     })
     revalidatePath("/admin/agenda")
     revalidatePath("/")
+    revalidateTag("events")
     return { success: true, data: item }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -102,6 +103,7 @@ export async function updateEvent(
     })
     revalidatePath("/admin/agenda")
     revalidatePath("/")
+    revalidateTag("events")
     return { success: true, data: item }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }
@@ -115,6 +117,7 @@ export async function deleteEvent(id: string): Promise<ActionResult<null>> {
     await prisma.schoolEvent.delete({ where: { id } })
     revalidatePath("/admin/agenda")
     revalidatePath("/")
+    revalidateTag("events")
     return { success: true, data: null }
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message }

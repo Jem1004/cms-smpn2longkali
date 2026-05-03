@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { contentSectionSchemas } from "@/lib/validators"
@@ -72,6 +72,14 @@ export async function updateInstitutionalContent<S extends ContentSection>(
 
     revalidatePath("/")
     revalidatePath("/admin/konten")
+
+    // Invalidate the specific content cache
+    const tagMap: Record<string, string> = {
+      HERO: "content-hero",
+      PROFILE: "content-profile",
+      PRINCIPAL_MESSAGE: "content-principal",
+    }
+    if (tagMap[section]) revalidateTag(tagMap[section])
 
     return { success: true, data: record.content as ContentTypeMap[S] }
   } catch (error) {

@@ -1,10 +1,8 @@
-import { prisma } from "@/lib/prisma"
+import { getPublicStaff } from "@/lib/queries"
 import { StaffCarousel } from "./staff-carousel"
 
 export async function StaffSlider() {
-  const staff = await prisma.staff.findMany({
-    orderBy: { order: "asc" },
-  })
+  const staff = await getPublicStaff()
 
   if (staff.length === 0) {
     return null
