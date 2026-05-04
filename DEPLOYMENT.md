@@ -95,6 +95,53 @@ git push smkmudappu main
 
 ---
 
+## NEXTAUTH_SECRET per Sekolah
+
+| Sekolah | NEXTAUTH_SECRET |
+|---|---|
+| SMPN 3 PPU | `cTpjJ/4ZdZzF++OrK0MeGI2EkMK9sYIIPeLcKHoHRlDs=` |
+| SMKN 1 PPU | `cEv1KDXjhJI5qbBfebzLNNggcbClBiezhHK8x17i+4+A=` |
+| SMK Mutu PPU | `cEv1KDXjhJI5qbBfebzLNNggcbClBiezhHK8x17i+4+A=` |
+| SMK Muda PPU | `IcP4xww079mUbL8n7jp3TcP6fVJMn3Q/FYMEqBuJM+w=` |
+
+---
+
+## AWS S3 Folder Structure
+
+Semua sekolah menggunakan bucket yang sama (`freelance-store`) dengan folder terpisah:
+
+```
+freelance-store/
+├── cms-smpn3ppu/uploads/
+├── cms-smkn1ppu/uploads/
+├── cms-smkmutuppu/uploads/
+└── cms-smkmudappu/uploads/
+```
+
+---
+
+## Vercel Project URLs
+
+| Sekolah | Production URL | Vercel Dashboard |
+|---|---|---|
+| SMPN 3 PPU | https://smpn3ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smpn3ppu |
+| SMKN 1 PPU | https://smkn1ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkn1ppu |
+| SMK Mutu PPU | https://smkmutuppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmutuppu |
+| SMK Muda PPU | https://smkmudappu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmudappu |
+
+---
+
+## Deployment History
+
+| Tanggal | Sekolah | Status | Commit Hash |
+|---|---|---|---|
+| 2026-04-18 | SMPN 3 PPU | ✅ Live | Initial deployment |
+| 2026-04-19 | SMKN 1 PPU | ✅ Live | Initial deployment |
+| 2026-04-20 | SMK Mutu PPU | ✅ Live | Initial deployment |
+| 2026-05-04 | SMK Muda PPU | ✅ Live | `a827762c` |
+
+---
+
 ## Login Default (semua sekolah)
 
 - **Email:** `admin@astrodigiso-cms.com`
@@ -108,3 +155,35 @@ git push smkmudappu main
 
 `.env` lokal saat ini terhubung ke database **SMK Mutu PPU** sebagai environment development utama.
 Jangan push file `.env` ke GitHub.
+
+---
+
+## Catatan Teknis
+
+### Image Optimization
+- Vercel Image Optimization: **DISABLED** (`unoptimized: true`)
+- Client-side WebP compression: **ENABLED** (Canvas API)
+- Target size: Max 1920×1080, quality 82%
+- Quota usage: 0/5,000 transformations/month
+
+### Database Caching
+- Cache strategy: `unstable_cache` (Next.js)
+- Revalidate time: 3600s (1h) untuk konten statis, 300s (5min) untuk konten dinamis
+- Cache invalidation: Otomatis via `revalidateTag()` saat admin update data
+- Performance gain: ~95% faster response time (450-700ms → 15-30ms)
+
+### Features Available
+- ✅ Content Management (Articles, Pages, Announcements, Events)
+- ✅ Gallery Management
+- ✅ Staff Directory
+- ✅ Department Pages
+- ✅ Student Registration System
+- ✅ Graduation Announcement System (Excel import + public lookup)
+- ✅ Dynamic Menu Builder
+- ✅ SEO Optimization (meta tags, Open Graph)
+- ✅ Role-Based Access Control (SUPER_ADMIN, ADMIN, EDITOR)
+
+### Database Schema
+- 13 migrations applied
+- Last migration: `20260503122149_add_graduation_student`
+- Tables: User, Article, Page, Announcement, Event, Gallery, Staff, Department, Registration, GraduationStudent, Category, Menu, SiteSettings
