@@ -12,6 +12,7 @@ Catatan konfigurasi untuk setiap deployment project ini.
 | SMPN 3 PPU | `cms-sekolah-v1` (origin) | `smpn3ppu.sch.id` | cms-smpn3ppu |
 | SMKN 1 PPU | `cms-smkn1ppu` | `smkn1ppu.sch.id` | cms-smkn1ppu |
 | SMK Mutu PPU | `cms-smkmutuppu` | `smkmutuppu.sch.id` | cms-smkmutuppu |
+| SMK Muda PPU | `cms-sekolah-smkmudappu` | `smkmudappu.sch.id` | cms-smkmudappu |
 
 ---
 
@@ -28,6 +29,9 @@ const key = `cms-smkn1ppu/uploads/...`
 
 // SMK Mutu PPU
 const key = `cms-smkmutuppu/uploads/...`
+
+// SMK Muda PPU
+const key = `cms-smkmudappu/uploads/...`
 ```
 
 ### 2. Environment Variables di Vercel
@@ -53,6 +57,7 @@ Setiap project Vercel harus punya env vars sendiri:
 | SMPN 3 PPU | `postgresql://neondb_owner:npg_ziGYFybSQ6s4@ep-summer-glitter-ao3w4m1i.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require` |
 | SMKN 1 PPU | `postgresql://neondb_owner:npg_Vb7vZrHDJ8gK@ep-winter-morning-a1px0ua5-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
 | SMK Mutu PPU | `postgresql://neondb_owner:npg_ndcU5G2SAIzT@ep-snowy-unit-aomufodx-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
+| SMK Muda PPU | `postgresql://neondb_owner:npg_x19jsFJKqcgh@ep-odd-tooth-aof63si2-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
 
 ---
 
@@ -60,9 +65,10 @@ Setiap project Vercel harus punya env vars sendiri:
 
 ```bash
 git remote -v
-# origin    https://github.com/Jem1004/cms-sekolah-v1.git  (SMPN 3 PPU)
-# smkn1ppu  https://github.com/Jem1004/cms-smkn1ppu.git    (SMKN 1 PPU)
-# smkmutuppu https://github.com/Jem1004/cms-smkmutuppu.git  (SMK Mutu PPU)
+# origin      https://github.com/Jem1004/cms-sekolah-v1.git         (SMPN 3 PPU)
+# smkn1ppu    https://github.com/Jem1004/cms-smkn1ppu.git           (SMKN 1 PPU)
+# smkmutuppu  https://github.com/Jem1004/cms-smkmutuppu.git         (SMK Mutu PPU)
+# smkmudappu  https://github.com/Jem1004/cms-sekolah-smkmudappu.git (SMK Muda PPU)
 ```
 
 Push ke semua sekaligus:
@@ -70,6 +76,7 @@ Push ke semua sekaligus:
 git push origin main
 git push smkn1ppu main
 git push smkmutuppu main
+git push smkmudappu main
 ```
 
 ---
