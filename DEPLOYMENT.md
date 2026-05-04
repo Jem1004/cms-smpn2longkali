@@ -12,7 +12,7 @@ Catatan konfigurasi untuk setiap deployment project ini.
 | SMPN 3 PPU | `cms-sekolah-v1` (origin) | `smpn3ppu.sch.id` | cms-smpn3ppu |
 | SMKN 1 PPU | `cms-smkn1ppu` | `smkn1ppu.sch.id` | cms-smkn1ppu |
 | SMK Mutu PPU | `cms-smkmutuppu` | `smkmutuppu.sch.id` | cms-smkmutuppu |
-| SMK Muda PPU | `cms-sekolah-smkmudappu` | `smkmudappu.sch.id` | cms-smkmudappu |
+| SMK Muda PPU | `cms-sekolah-smkmudappu` | `smkmudappu.com` | cms-smkmudappu |
 
 ---
 
@@ -127,7 +127,7 @@ freelance-store/
 | SMPN 3 PPU | https://smpn3ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smpn3ppu |
 | SMKN 1 PPU | https://smkn1ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkn1ppu |
 | SMK Mutu PPU | https://smkmutuppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmutuppu |
-| SMK Muda PPU | https://smkmudappu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmudappu |
+| SMK Muda PPU | https://smkmudappu.com | https://vercel.com/jem1004s-projects/cms-smkmudappu |
 
 ---
 
