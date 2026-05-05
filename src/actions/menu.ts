@@ -64,12 +64,14 @@ export async function saveMenuItems(items: MenuItemForm[]): Promise<ActionResult
     const children = items.filter((i) => i.parentId !== null)
 
     const result = await prisma.$transaction(async (tx) => {
+      // Delete all existing menu items
       await tx.menuItem.deleteMany({})
 
       const indexToNewId = new Map<number, string>()
 
-      for (const parent of parents) {
-        const created = await tx.menuItem.create({
+      // Batch create all parent items
+      const parentCreates = parents.map((parent) => 
+        tx.menuItem.create({
           data: {
             label: parent.label,
             url: parent.url,
@@ -79,15 +81,23 @@ export async function saveMenuItems(items: MenuItemForm[]): Promise<ActionResult
             parentId: null,
           },
         })
-        indexToNewId.set(parent.order, created.id)
-      }
+      )
+      
+      const createdParents = await Promise.all(parentCreates)
+      
+      // Map parent order to new IDs
+      createdParents.forEach((created, idx) => {
+        indexToNewId.set(parents[idx].order, created.id)
+      })
 
-      for (const child of children) {
+      // Batch create all child items
+      const childCreates = children.map((child) => {
         const parentRef = child.parentId!
         const parentIdx = parseInt(parentRef.replace("__idx__", ""), 10)
         const newParentId = indexToNewId.get(parentIdx)
         if (!newParentId) throw new Error(`Gagal memetakan parent untuk item "${child.label}"`)
-        await tx.menuItem.create({
+        
+        return tx.menuItem.create({
           data: {
             label: child.label,
             url: child.url,
@@ -97,8 +107,13 @@ export async function saveMenuItems(items: MenuItemForm[]): Promise<ActionResult
             parentId: newParentId,
           },
         })
+      })
+      
+      if (childCreates.length > 0) {
+        await Promise.all(childCreates)
       }
 
+      // Fetch final result
       const created = await tx.menuItem.findMany({
         where: { parentId: null },
         include: { children: { orderBy: { order: "asc" } } },
@@ -109,6 +124,8 @@ export async function saveMenuItems(items: MenuItemForm[]): Promise<ActionResult
         success: true as const,
         data: created.map((item) => mapItem(item, item.children.map((c) => mapItem(c)))) as MenuItemWithChildren[],
       }
+    }, {
+      timeout: 15000, // Increase timeout to 15 seconds
     })
 
     if (!result.success) return result
