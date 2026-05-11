@@ -203,7 +203,7 @@ export async function getCategories(): Promise<ActionResult<{ id: string; name: 
  * Increment article view counter (non-blocking, fire-and-forget)
  * 
  * This function increments both total views and unique views (if applicable).
- * It's designed to be called without awaiting to avoid blocking page render.
+ * It also sets a cookie to mark the article as viewed.
  * 
  * @param slug - Article slug
  * @param isUniqueView - Whether this is a unique visitor (first view in 24h)
@@ -231,6 +231,17 @@ export async function incrementArticleView(
         uniqueViewCount: true 
       },
     })
+
+    // Set cookie to mark as viewed (only if unique view)
+    if (isUniqueView) {
+      try {
+        const { markArticleAsViewed } = await import("@/lib/view-tracker")
+        await markArticleAsViewed(slug)
+      } catch (cookieError) {
+        // Silent fail on cookie error - not critical
+        console.error("[incrementArticleView] Cookie error:", cookieError)
+      }
+    }
 
     return { 
       success: true, 

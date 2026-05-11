@@ -4,7 +4,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { incrementArticleView } from "@/actions/article"
-import { hasViewedArticle, markArticleAsViewed } from "@/lib/view-tracker"
+import { hasViewedArticle } from "@/lib/view-tracker"
 import { Calendar, User, ChevronLeft, Share2, Tag, ArrowRight, Eye } from "lucide-react"
 
 function stripHtml(html: string): string {
@@ -74,15 +74,11 @@ export default async function ArticleDetailPage({
   const isUniqueView = !(await hasViewedArticle(slug))
   
   // Increment view counter (don't await - let it run in background)
+  // The server action will handle both DB update and cookie setting
   incrementArticleView(slug, isUniqueView).catch((error) => {
     // Silent fail - view tracking is not critical
     console.error("[ArticleDetailPage] View tracking failed:", error)
   })
-  
-  // Mark article as viewed for this visitor (24h cookie)
-  if (isUniqueView) {
-    await markArticleAsViewed(slug)
-  }
 
   // Fetch related articles from same category (exclude current)
   const relatedArticles = article.categoryId
