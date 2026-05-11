@@ -1,6 +1,7 @@
 "use server"
 
 import { revalidatePath, revalidateTag } from "next/cache"
+import { cookies } from "next/headers"
 import { prisma } from "@/lib/prisma"
 import { requirePermission } from "@/lib/rbac"
 import { articleSchema } from "@/lib/validators"
@@ -233,10 +234,20 @@ export async function incrementArticleView(
     })
 
     // Set cookie to mark as viewed (only if unique view)
+    // This must be done directly in Server Action, not via imported function
     if (isUniqueView) {
       try {
-        const { markArticleAsViewed } = await import("@/lib/view-tracker")
-        await markArticleAsViewed(slug)
+        const cookieStore = await cookies()
+        const cookieName = `article_viewed_${slug}`
+        const COOKIE_MAX_AGE = 24 * 60 * 60 // 24 hours
+        
+        cookieStore.set(cookieName, "1", {
+          maxAge: COOKIE_MAX_AGE,
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+        })
       } catch (cookieError) {
         // Silent fail on cookie error - not critical
         console.error("[incrementArticleView] Cookie error:", cookieError)
