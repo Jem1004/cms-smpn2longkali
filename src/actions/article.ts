@@ -198,3 +198,55 @@ export async function getCategories(): Promise<ActionResult<{ id: string; name: 
     return { success: false, error: "Terjadi kesalahan saat mengambil kategori" }
   }
 }
+
+/**
+ * Increment article view counter (non-blocking, fire-and-forget)
+ * 
+ * This function increments both total views and unique views (if applicable).
+ * It's designed to be called without awaiting to avoid blocking page render.
+ * 
+ * @param slug - Article slug
+ * @param isUniqueView - Whether this is a unique visitor (first view in 24h)
+ * @returns Promise with updated view counts (but caller should not await)
+ */
+export async function incrementArticleView(
+  slug: string,
+  isUniqueView: boolean = false
+): Promise<ActionResult<{ viewCount: number; uniqueViewCount: number }>> {
+  try {
+    // Only increment for published articles
+    const article = await prisma.article.update({
+      where: { 
+        slug,
+        status: "PUBLISHED" // Only count views for published articles
+      },
+      data: {
+        viewCount: { increment: 1 },
+        // Only increment unique count if this is a unique visitor
+        ...(isUniqueView && { uniqueViewCount: { increment: 1 } }),
+        lastViewedAt: new Date(),
+      },
+      select: { 
+        viewCount: true, 
+        uniqueViewCount: true 
+      },
+    })
+
+    return { 
+      success: true, 
+      data: { 
+        viewCount: article.viewCount, 
+        uniqueViewCount: article.uniqueViewCount 
+      } 
+    }
+  } catch (error) {
+    // Silent fail - don't break page if view tracking fails
+    // This is acceptable because view count is not critical functionality
+    console.error("[incrementArticleView] Error:", error)
+    
+    if (error instanceof Error) {
+      return { success: false, error: error.message }
+    }
+    return { success: false, error: "Failed to track article view" }
+  }
+}

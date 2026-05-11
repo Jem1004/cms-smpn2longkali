@@ -43,6 +43,8 @@ export default async function BeritaPage({ searchParams }: BeritaPageProps) {
         title: a.title,
         slug: a.slug,
         status: a.status,
+        viewCount: a.viewCount ?? 0,
+        uniqueViewCount: a.uniqueViewCount ?? 0,
         createdAt: a.createdAt?.toISOString?.() ?? a.createdAt,
         publishedAt: a.publishedAt?.toISOString?.() ?? a.publishedAt ?? null,
         author: a.author ?? null,

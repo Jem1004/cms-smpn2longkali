@@ -63,24 +63,28 @@ model Category {
 }
 
 model Article {
-  id           String        @id @default(cuid())
-  title        String
-  content      String
-  slug         String        @unique
-  thumbnailUrl String?
-  metaTitle    String?
-  metaDesc     String?
-  status       ArticleStatus @default(DRAFT)
-  authorId     String
-  author       User          @relation(fields: [authorId], references: [id])
-  categoryId   String?
-  category     Category?     @relation(fields: [categoryId], references: [id])
-  publishedAt  DateTime?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              String        @id @default(cuid())
+  title           String
+  content         String
+  slug            String        @unique
+  thumbnailUrl    String?
+  metaTitle       String?
+  metaDesc        String?
+  status          ArticleStatus @default(DRAFT)
+  viewCount       Int           @default(0)
+  uniqueViewCount Int           @default(0)
+  lastViewedAt    DateTime?
+  authorId        String
+  author          User          @relation(fields: [authorId], references: [id])
+  categoryId      String?
+  category        Category?     @relation(fields: [categoryId], references: [id])
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
   @@index([status, publishedAt])
   @@index([slug])
+  @@index([viewCount])
 }
 
 model GalleryImage {

@@ -36,6 +36,8 @@ interface ArticleRow {
   title: string
   slug: string
   status: "DRAFT" | "PUBLISHED"
+  viewCount?: number
+  uniqueViewCount?: number
   createdAt: string
   publishedAt: string | null
   author: { id: string; name: string } | null
@@ -253,6 +255,19 @@ export function ArticleList({
         <Badge variant={item.status === "PUBLISHED" ? "default" : "secondary"}>
           {item.status === "PUBLISHED" ? "Published" : "Draft"}
         </Badge>
+      ),
+    },
+    {
+      key: "views",
+      header: "Views",
+      render: (item) => (
+        <div className="text-sm">
+          {item.viewCount !== undefined && item.viewCount > 0 ? (
+            <span className="font-medium">{item.viewCount.toLocaleString("id-ID")}</span>
+          ) : (
+            <span className="text-muted-foreground">—</span>
+          )}
+        </div>
       ),
     },
     {

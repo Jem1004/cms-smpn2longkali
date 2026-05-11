@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
-import { ChevronRight, ChevronLeft, Newspaper } from "lucide-react"
+import { ChevronRight, ChevronLeft, Newspaper, Eye } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Berita",
@@ -116,7 +116,15 @@ export default async function BeritaPage({
                       </p>
                       <div className="flex items-center justify-between text-xs text-gray-400">
                         <span>{article.author.name}</span>
-                        <time>{formatDate(article.publishedAt)}</time>
+                        <div className="flex items-center gap-3">
+                          {article.viewCount > 0 && (
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-3 w-3" />
+                              {article.viewCount.toLocaleString("id-ID")}
+                            </span>
+                          )}
+                          <time>{formatDate(article.publishedAt)}</time>
+                        </div>
                       </div>
                     </div>
                   </Link>
