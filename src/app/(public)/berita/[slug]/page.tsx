@@ -3,8 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { incrementArticleView } from "@/actions/article"
-import { hasViewedArticle } from "@/lib/view-tracker"
+import { ViewTracker } from "@/components/view-tracker"
 import { Calendar, User, ChevronLeft, Share2, Tag, ArrowRight, Eye } from "lucide-react"
 
 function stripHtml(html: string): string {
@@ -69,16 +68,9 @@ export default async function ArticleDetailPage({
     notFound()
   }
 
-  // Track article view (non-blocking, fire-and-forget)
-  // This runs in the background and doesn't block page render
-  const isUniqueView = !(await hasViewedArticle(slug))
-  
-  // Increment view counter (don't await - let it run in background)
-  // The server action will handle both DB update and cookie setting
-  incrementArticleView(slug, isUniqueView).catch((error) => {
-    // Silent fail - view tracking is not critical
-    console.error("[ArticleDetailPage] View tracking failed:", error)
-  })
+  // View tracking is handled by the ViewTracker client component below.
+  // It calls /api/views Route Handler after hydration, which can safely
+  // read and set cookies (unlike Server Component rendering phase).
 
   // Fetch related articles from same category (exclude current)
   const relatedArticles = article.categoryId
@@ -96,6 +88,8 @@ export default async function ArticleDetailPage({
 
   return (
     <main className="bg-white min-h-screen pb-20">
+      {/* Client component: tracks views via Route Handler after page render */}
+      <ViewTracker slug={slug} />
       
       {/* Minimalist Title Bar - Consitent but more compact */}
       <header className="bg-[#002244] border-b-[3px] border-yellow-400 pt-10 pb-10 md:pt-12 md:pb-12">
