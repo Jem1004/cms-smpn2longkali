@@ -13,7 +13,7 @@ Catatan konfigurasi untuk setiap deployment project ini.
 | SMKN 1 PPU | `cms-smkn1ppu` | `smkn1ppu.sch.id` | cms-smkn1ppu |
 | SMK Mutu PPU | `cms-smkmutuppu` | `smkmutuppu.sch.id` | cms-smkmutuppu |
 | SMK Muda PPU | `cms-sekolah-smkmudappu` | `smkmudappu.com` | cms-smkmudappu |
-| SMPN 2 Longkali | `cms-smpndualongkali` | `smpndualongkali.sch.id` | cms-smpndualongkali |
+| SMPN 2 Longkali | `cms-smpn2longkali` | `smpndualongkali.sch.id` | cms-smpn2longkali |
 
 ---
 
@@ -74,7 +74,7 @@ git remote -v
 # smkn1ppu         https://github.com/Jem1004/cms-smkn1ppu.git           (SMKN 1 PPU)
 # smkmutuppu       https://github.com/Jem1004/cms-smkmutuppu.git         (SMK Mutu PPU)
 # smkmudappu       https://github.com/Jem1004/cms-sekolah-smkmudappu.git (SMK Muda PPU)
-# smpn2longkali    https://github.com/Jem1004/cms-smpndualongkali.git    (SMPN 2 Longkali)
+# smpn2longkali    https://github.com/Jem1004/cms-smpn2longkali.git      (SMPN 2 Longkali)
 ```
 
 Push ke semua sekaligus:
@@ -135,7 +135,7 @@ freelance-store/
 | SMKN 1 PPU | https://smkn1ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkn1ppu |
 | SMK Mutu PPU | https://smkmutuppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmutuppu |
 | SMK Muda PPU | https://smkmudappu.com | https://vercel.com/jem1004s-projects/cms-smkmudappu |
-| SMPN 2 Longkali | https://smpndualongkali.sch.id | https://vercel.com/jem1004s-projects/cms-smpndualongkali |
+| SMPN 2 Longkali | https://smpndualongkali.sch.id | https://vercel.com/jem1004s-projects/cms-smpn2longkali |
 
 ---
 
