@@ -407,7 +407,7 @@ function ProfilTab({ initialData }: { initialData: ProfileContent }) {
       <CardHeader>
         <CardTitle>Profil &amp; Video</CardTitle>
         <CardDescription>
-          Tampil di section &quot;Profil SMK Negeri 1 Surabaya&quot; di landing page — bagian kiri layout 2 kolom.
+          Tampil di section &quot;Profil Sekolah&quot; di landing page — bagian kiri layout 2 kolom.
           Untuk konten Visi, Misi, Sejarah — buat di{" "}
           <Link href="/admin/halaman" className="text-primary underline underline-offset-2">
             Halaman Kustom
@@ -416,7 +416,19 @@ function ProfilTab({ initialData }: { initialData: ProfileContent }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="profil-description">Deskripsi Singkat</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="profil-description">Deskripsi Singkat</Label>
+            {description && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDescription("")}
+                className="h-6 px-2 text-xs text-red-500 hover:text-red-700 hover:bg-red-50"
+              >
+                Hapus Deskripsi
+              </Button>
+            )}
+          </div>
           <Textarea
             id="profil-description"
             placeholder="Deskripsi singkat profil sekolah yang tampil di landing page"
@@ -425,12 +437,24 @@ function ProfilTab({ initialData }: { initialData: ProfileContent }) {
             onChange={(e) => setDescription(e.target.value)}
           />
           <p className="text-xs text-muted-foreground">
-            Tampil sebagai teks deskripsi di bawah video profil.
+            Tampil sebagai teks deskripsi di bawah video profil. Kosongkan jika tidak diperlukan.
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="profil-videoUrl">URL Video Profil</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="profil-videoUrl">URL Video Profil</Label>
+            {videoUrl && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setVideoUrl("")}
+                className="h-6 px-2 text-xs text-red-500 hover:text-red-700 hover:bg-red-50"
+              >
+                Hapus Video
+              </Button>
+            )}
+          </div>
           <Input
             id="profil-videoUrl"
             placeholder="https://youtube.com/watch?v=..."
@@ -438,7 +462,14 @@ function ProfilTab({ initialData }: { initialData: ProfileContent }) {
             onChange={(e) => setVideoUrl(e.target.value)}
           />
           <p className="text-xs text-muted-foreground">
-            Mendukung URL YouTube. Video akan di-embed di landing page.
+            Mendukung URL YouTube. Video akan di-embed di landing page. Kosongkan jika sekolah belum memiliki video profil.
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-amber-50 border border-amber-100 p-3 space-y-1.5 text-xs text-amber-800">
+          <p className="font-bold">💡 Tips Menghilangkan Section Profil:</p>
+          <p className="text-amber-700">
+            Jika Anda ingin <strong>menghilangkan secara total</strong> section Profil Sekolah ini dari halaman <i>landing page</i> (Beranda), pastikan <strong>kedua kolom di atas (Deskripsi & Video) dalam keadaan kosong</strong>.
           </p>
         </div>
 

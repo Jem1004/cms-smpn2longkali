@@ -62,11 +62,11 @@ export const heroContentSchema = z.object({
 })
 
 export const profileContentSchema = z.object({
-  description: z.string().min(1, "Deskripsi wajib diisi"),
-  videoUrl: z.string().min(1, "URL video wajib diisi"),
-  visi: z.string().min(1, "Visi wajib diisi"),
-  misi: z.string().min(1, "Misi wajib diisi"),
-  sejarah: z.string().min(1, "Sejarah wajib diisi"),
+  description: z.string().optional().default(""),
+  videoUrl: z.string().optional().default(""),
+  visi: z.string().optional().default(""),
+  misi: z.string().optional().default(""),
+  sejarah: z.string().optional().default(""),
 })
 
 export const principalContentSchema = z.object({

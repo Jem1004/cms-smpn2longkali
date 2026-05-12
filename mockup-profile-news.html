@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockup - Profil & Berita Section</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { 
+        extend: { 
+          colors: { 
+            navy: '#002244', 
+            accent: '#FFC107' 
+          } 
+        } 
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+
+  <!-- ========================================================
+       VARIASI 1: DENGAN VIDEO PROFIL
+       (Desain Asli)
+       ======================================================== -->
+  <div class="bg-navy py-4 px-4 text-white text-center font-bold text-sm">
+    VARIASI 1: DENGAN VIDEO PROFIL (7/12 & 5/12 Layout)
+  </div>
+
+  <section class="bg-white py-16 md:py-24 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+        
+        <!-- Kiri: Profil + Video -->
+        <div class="w-full lg:w-7/12">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-tight flex items-center gap-3">
+            <span class="w-1.5 h-7 bg-navy block rounded-full"></span>
+            Profil SMK Mutu PPU
+          </h2>
+          <div class="relative aspect-video rounded-xl overflow-hidden shadow-md mb-6 bg-slate-100 border border-slate-200 group flex items-center justify-center">
+             <div class="text-slate-400 font-medium">▶ Video Profil Placeholder</div>
+          </div>
+          <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+            Sekolah kami berkomitmen untuk mencetak lulusan yang kompeten, berkarakter, dan siap menghadapi tantangan dunia kerja melalui pendidikan vokasi yang bermutu tinggi dan terintegrasi dengan industri.
+          </p>
+        </div>
+
+        <!-- Kanan: Berita -->
+        <div class="w-full lg:w-5/12">
+          <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+            <h2 class="text-xl font-bold text-navy tracking-tight">Berita Terbaru</h2>
+            <a href="#" class="text-sm font-semibold text-navy hover:text-blue-600 transition-colors">
+              Selengkapnya &rarr;
+            </a>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Berita utama -->
+            <a href="#" class="block rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow group">
+              <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-100 flex items-center justify-center">
+                <span class="absolute top-3 left-3 text-[10px] font-bold bg-navy/80 text-accent px-2 py-0.5 rounded">Prestasi</span>
+                <span class="text-4xl">🏆</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-navy text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  Siswa SMK Mutu PPU Raih Medali Emas LKS Tingkat Provinsi
+                </h3>
+                <p class="text-xs text-gray-400 mt-2">12 Mei 2026</p>
+              </div>
+            </a>
+
+            <!-- Berita kecil 1 -->
+            <a href="#" class="flex gap-4 group items-center">
+              <div class="relative h-16 w-24 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-green-100 to-slate-100 flex items-center justify-center">
+                 <span class="text-2xl">🏭</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-slate-800 group-hover:text-blue-600 line-clamp-2 transition-colors leading-snug">
+                  Kunjungan Industri ke PT. Astra Honda Motor
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">10 Mei 2026</p>
+              </div>
+            </a>
+
+            <!-- Berita kecil 2 -->
+            <a href="#" class="flex gap-4 group items-center">
+              <div class="relative h-16 w-24 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-amber-100 to-slate-100 flex items-center justify-center">
+                 <span class="text-2xl">🤝</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-slate-800 group-hover:text-blue-600 line-clamp-2 transition-colors leading-snug">
+                  Penandatanganan MoU dengan 10 Perusahaan Mitra Baru
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">5 Mei 2026</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       VARIASI 2: TANPA VIDEO PROFIL (USULAN DESAIN BARU)
+       Berita Mendapatkan Porsi Lebih Besar
+       ======================================================== -->
+  <div class="bg-accent py-4 px-4 text-navy text-center font-bold text-sm border-y-4 border-navy">
+    VARIASI 2: TANPA VIDEO PROFIL (4/12 Profil & 8/12 Berita Editorial Grid)
+  </div>
+
+  <section class="bg-white py-16 md:py-24 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+        
+        <!-- Kiri: Profil Sekolah (Porsi Diperkecil menjadi 4/12) -->
+        <div class="w-full lg:w-4/12 flex flex-col">
+          <div class="sticky top-28">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-navy mb-6 tracking-tight flex items-center gap-3">
+              <span class="w-2 h-8 bg-accent block rounded-full"></span>
+              Profil Sekolah
+            </h2>
+            <p class="text-slate-600 leading-relaxed text-sm md:text-base mb-8">
+              Sekolah kami berkomitmen untuk mencetak lulusan yang kompeten, berkarakter, dan siap menghadapi tantangan dunia kerja melalui pendidikan vokasi yang bermutu tinggi dan terintegrasi dengan industri modern. Kami membekali siswa dengan hardskill dan softskill yang relevan dengan kebutuhan zaman.
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-navy/5 flex items-center justify-center text-navy font-bold text-lg">A</div>
+              <div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akreditasi</p>
+                <p class="font-bold text-navy">Unggul</p>
+              </div>
+            </div>
+            
+            <a href="#" class="mt-8 inline-flex items-center justify-center gap-2 bg-navy hover:bg-slate-800 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors w-full sm:w-auto">
+              Selengkapnya Tentang Kami &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Kanan: Berita (Porsi Diperbesar menjadi 8/12) -->
+        <div class="w-full lg:w-8/12">
+          <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-slate-100">
+            <h2 class="text-2xl font-bold text-navy tracking-tight">Berita & Informasi Utama</h2>
+            <a href="#" class="text-sm font-bold text-accent bg-navy px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors">
+              Lihat Semua Berita
+            </a>
+          </div>
+
+          <!-- Editorial Grid: 1 Besar (Kiri) + 4 Kecil (Kanan) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Berita Utama Terbesar -->
+            <a href="#" class="block rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition-all duration-300 group flex flex-col h-full bg-white relative">
+              <div class="absolute top-4 left-4 z-10">
+                <span class="font-bold bg-accent text-navy text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Sorotan</span>
+              </div>
+              <div class="relative aspect-[4/3] md:flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center overflow-hidden">
+                <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🏆</span>
+                <!-- Efek overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-80"></div>
+                
+                <!-- Teks menumpuk di atas gambar untuk kesan premium -->
+                <div class="absolute bottom-0 left-0 right-0 p-6">
+                   <p class="text-accent text-xs font-bold mb-2 flex items-center gap-2">
+                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                     12 Mei 2026
+                   </p>
+                   <h3 class="font-bold text-white text-xl leading-snug line-clamp-3 group-hover:text-accent transition-colors">
+                     Siswa SMK Mutu PPU Raih Medali Emas LKS Tingkat Provinsi Tahun 2026
+                   </h3>
+                </div>
+              </div>
+            </a>
+
+            <!-- List 4 Berita Lainnya -->
+            <div class="flex flex-col gap-4 justify-between h-full">
+              
+              <!-- Berita List 1 -->
+              <a href="#" class="flex gap-4 group items-center bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all">
+                <div class="relative h-20 w-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center">
+                   <span class="text-2xl group-hover:scale-110 transition-transform">🏭</span>
+                </div>
+                <div class="flex-1 min-w-0 py-1">
+                  <span class="text-[10px] font-bold text-emerald-600 mb-1 block">Kegiatan</span>
+                  <h3 class="text-sm font-bold text-slate-800 group-hover:text-navy line-clamp-2 transition-colors leading-snug">
+                    Kunjungan Industri ke PT. Astra Honda Motor
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                     <span class="w-1 h-1 rounded-full bg-slate-300"></span> 10 Mei 2026
+                  </p>
+                </div>
+              </a>
+
+              <!-- Berita List 2 -->
+              <a href="#" class="flex gap-4 group items-center bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all">
+                <div class="relative h-20 w-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center">
+                   <span class="text-2xl group-hover:scale-110 transition-transform">🤝</span>
+                </div>
+                <div class="flex-1 min-w-0 py-1">
+                  <span class="text-[10px] font-bold text-amber-600 mb-1 block">Kerjasama</span>
+                  <h3 class="text-sm font-bold text-slate-800 group-hover:text-navy line-clamp-2 transition-colors leading-snug">
+                    Penandatanganan MoU dengan 10 Perusahaan Mitra Baru
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                     <span class="w-1 h-1 rounded-full bg-slate-300"></span> 5 Mei 2026
+                  </p>
+                </div>
+              </a>
+
+              <!-- Berita List 3 -->
+              <a href="#" class="flex gap-4 group items-center bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all">
+                <div class="relative h-20 w-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+                   <span class="text-2xl group-hover:scale-110 transition-transform">💻</span>
+                </div>
+                <div class="flex-1 min-w-0 py-1">
+                  <span class="text-[10px] font-bold text-purple-600 mb-1 block">Fasilitas</span>
+                  <h3 class="text-sm font-bold text-slate-800 group-hover:text-navy line-clamp-2 transition-colors leading-snug">
+                    Peresmian Laboratorium Komputer Baru Bantuan Pemprov
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                     <span class="w-1 h-1 rounded-full bg-slate-300"></span> 2 Mei 2026
+                  </p>
+                </div>
+              </a>
+
+              <!-- Berita List 4 -->
+              <a href="#" class="flex gap-4 group items-center bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all">
+                <div class="relative h-20 w-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-red-50 to-rose-50 flex items-center justify-center">
+                   <span class="text-2xl group-hover:scale-110 transition-transform">🎓</span>
+                </div>
+                <div class="flex-1 min-w-0 py-1">
+                  <span class="text-[10px] font-bold text-rose-600 mb-1 block">Akademik</span>
+                  <h3 class="text-sm font-bold text-slate-800 group-hover:text-navy line-clamp-2 transition-colors leading-snug">
+                    Persiapan Pelaksanaan Ujian Kompetensi Keahlian (UKK)
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                     <span class="w-1 h-1 rounded-full bg-slate-300"></span> 28 Apr 2026
+                  </p>
+                </div>
+              </a>
+
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

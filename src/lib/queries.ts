@@ -280,6 +280,8 @@ async function fetchLatestArticles() {
         slug: true,
         thumbnailUrl: true,
         publishedAt: true,
+        content: true,
+        metaDesc: true,
         category: { select: { name: true } },
       },
     })

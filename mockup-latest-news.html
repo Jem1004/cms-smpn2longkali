@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockup - Opsi Desain Berita & Profil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { 
+        extend: { 
+          colors: { 
+            navy: '#002244', 
+            accent: '#FFC107' 
+          } 
+        } 
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+
+  <!-- ========================================================
+       PROFIL SECTION (Berdiri Sendiri)
+       ======================================================== -->
+  <div class="bg-navy py-4 px-4 text-white text-center font-bold text-sm">
+    SECTION 1: PROFIL SEKOLAH (Ditampilkan Jika Ada Deskripsi/Video)
+  </div>
+
+  <section class="bg-white py-16 md:py-24 border-b border-slate-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-navy mb-4 tracking-tight">
+        Profil SMK Mutu PPU
+      </h2>
+      <p class="text-slate-600 leading-relaxed text-sm md:text-base max-w-3xl mx-auto mb-10">
+        Sekolah kami berkomitmen untuk mencetak lulusan yang kompeten, berkarakter, dan siap menghadapi tantangan dunia kerja melalui pendidikan vokasi yang bermutu tinggi dan terintegrasi dengan industri modern.
+      </p>
+
+      <!-- Video Section -->
+      <div class="relative aspect-video rounded-3xl overflow-hidden shadow-xl bg-slate-900 border-4 border-slate-50 mx-auto max-w-4xl group">
+        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors cursor-pointer">
+          <div class="h-20 w-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+            <svg class="h-10 w-10 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       LATEST NEWS SECTION - OPSI A (Rekomendasi Utama)
+       ======================================================== -->
+  <div class="bg-accent py-4 px-4 text-navy text-center font-bold text-sm mt-10">
+    SECTION 2: BERITA TERBARU - OPSI A (Grid 3 Kolom - 6 Berita - Direkomendasikan)
+  </div>
+
+  <section class="bg-slate-50 py-16 md:py-24 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <span class="inline-block px-3 py-1 bg-navy/10 text-navy text-xs font-bold uppercase tracking-widest rounded-full mb-3">
+            Informasi
+          </span>
+          <h2 class="text-2xl md:text-4xl font-extrabold text-navy tracking-tight">
+            Berita Terbaru
+          </h2>
+        </div>
+        <a href="#" class="hidden sm:inline-flex items-center gap-2 text-sm font-bold text-accent bg-navy px-5 py-2.5 rounded-xl hover:bg-slate-800 transition-colors">
+          Lihat Semua Berita &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1 -->
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+            <div class="absolute top-4 left-4 z-10">
+              <span class="font-bold bg-accent text-navy text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Prestasi</span>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🏆</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> 12 Mei 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+              Siswa SMK Mutu PPU Raih Medali Emas LKS Tingkat Provinsi
+            </h3>
+            <p class="text-slate-500 text-sm line-clamp-2 mb-4 mt-auto">
+              Perwakilan sekolah berhasil menyisihkan puluhan peserta lain dari berbagai daerah dalam ajang bergengsi tahunan.
+            </p>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">
+              Baca selengkapnya <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+            <div class="absolute top-4 left-4 z-10">
+              <span class="font-bold bg-navy text-white text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Kegiatan</span>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-green-100 to-emerald-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🏭</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> 10 Mei 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+              Kunjungan Industri ke PT. Astra Honda Motor
+            </h3>
+            <p class="text-slate-500 text-sm line-clamp-2 mb-4 mt-auto">
+              Siswa jurusan Teknik Kendaraan Ringan belajar langsung dari praktisi industri otomotif.
+            </p>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">
+              Baca selengkapnya <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+            <div class="absolute top-4 left-4 z-10">
+              <span class="font-bold bg-navy text-white text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Kerjasama</span>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🤝</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> 5 Mei 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+              Penandatanganan MoU dengan 10 Perusahaan Mitra
+            </h3>
+            <p class="text-slate-500 text-sm line-clamp-2 mb-4 mt-auto">
+              Kesepakatan ini membuka peluang PKL dan rekrutmen kerja bagi lulusan.
+            </p>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">
+              Baca selengkapnya <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Card 4, 5, 6 (Duplikat untuk contoh grid penuh) -->
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+             <div class="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">💻</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> 2 Mei 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">Peresmian Laboratorium Komputer Baru</h3>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">Baca <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+          </div>
+        </a>
+        
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+             <div class="absolute inset-0 bg-gradient-to-br from-rose-100 to-red-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🎓</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> 28 Apr 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">Persiapan Uji Kompetensi Keahlian (UKK)</h3>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">Baca <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+          </div>
+        </a>
+
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+          <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+             <div class="absolute inset-0 bg-gradient-to-br from-cyan-100 to-blue-50 flex items-center justify-center">
+              <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🌱</span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-slate-400 text-[11px] font-bold mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> 15 Apr 2026
+            </p>
+            <h3 class="font-bold text-navy text-lg leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">Penghargaan Sekolah Adiwiyata Mandiri</h3>
+            <span class="text-sm font-semibold text-blue-600 group-hover:text-navy transition-colors mt-auto inline-flex items-center gap-1">Baca <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+          </div>
+        </a>
+
+      </div>
+      <div class="mt-8 text-center sm:hidden">
+        <a href="#" class="inline-flex items-center gap-2 text-sm font-bold text-accent bg-navy px-6 py-3 rounded-xl hover:bg-slate-800 transition-colors">
+          Lihat Semua Berita &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       LATEST NEWS SECTION - OPSI B
+       ======================================================== -->
+  <div class="bg-slate-800 py-4 px-4 text-white text-center font-bold text-sm mt-10 border-t border-slate-700">
+    SECTION 2: BERITA TERBARU - OPSI B (Editorial 1 Besar + 4 Kecil)
+  </div>
+
+  <section class="bg-white py-16 md:py-24 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <h2 class="text-2xl md:text-4xl font-extrabold text-navy tracking-tight">Kabar Sekolah</h2>
+        </div>
+        <a href="#" class="text-sm font-bold text-navy hover:text-blue-600 transition-colors">Lihat Semua &rarr;</a>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 1 Besar -->
+        <a href="#" class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative h-[400px] lg:h-auto">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center">
+            <span class="text-8xl group-hover:scale-110 transition-transform duration-500">🏆</span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent opacity-90"></div>
+          
+          <div class="absolute bottom-0 left-0 right-0 p-8">
+            <span class="inline-block font-bold bg-accent text-navy text-[10px] px-3 py-1 rounded-full uppercase tracking-wider mb-3">Prestasi</span>
+            <h3 class="font-bold text-white text-2xl lg:text-3xl leading-snug mb-3 group-hover:text-accent transition-colors line-clamp-3">
+              Siswa SMK Mutu PPU Raih Medali Emas LKS Tingkat Provinsi Tahun 2026
+            </h3>
+            <p class="text-white/60 text-sm flex items-center gap-1.5 uppercase tracking-wider font-semibold">
+              12 Mei 2026
+            </p>
+          </div>
+        </a>
+
+        <!-- 4 Kecil (List Grid) -->
+        <div class="flex flex-col gap-4">
+          <a href="#" class="group flex gap-5 bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
+            <div class="relative w-32 h-28 flex-shrink-0 rounded-2xl overflow-hidden bg-green-100 flex items-center justify-center">
+              <span class="text-4xl group-hover:scale-110 transition-transform duration-300">🏭</span>
+            </div>
+            <div class="flex flex-col justify-center py-1">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">10 Mei 2026</span>
+              <h3 class="font-bold text-navy text-base leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">Kunjungan Industri ke PT. Astra Honda Motor</h3>
+            </div>
+          </a>
+          <a href="#" class="group flex gap-5 bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
+            <div class="relative w-32 h-28 flex-shrink-0 rounded-2xl overflow-hidden bg-amber-100 flex items-center justify-center">
+              <span class="text-4xl group-hover:scale-110 transition-transform duration-300">🤝</span>
+            </div>
+            <div class="flex flex-col justify-center py-1">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">5 Mei 2026</span>
+              <h3 class="font-bold text-navy text-base leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">Penandatanganan MoU dengan 10 Perusahaan Mitra</h3>
+            </div>
+          </a>
+          <a href="#" class="group flex gap-5 bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
+            <div class="relative w-32 h-28 flex-shrink-0 rounded-2xl overflow-hidden bg-purple-100 flex items-center justify-center">
+              <span class="text-4xl group-hover:scale-110 transition-transform duration-300">💻</span>
+            </div>
+            <div class="flex flex-col justify-center py-1">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">2 Mei 2026</span>
+              <h3 class="font-bold text-navy text-base leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">Peresmian Laboratorium Komputer Baru</h3>
+            </div>
+          </a>
+          <a href="#" class="group flex gap-5 bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
+            <div class="relative w-32 h-28 flex-shrink-0 rounded-2xl overflow-hidden bg-rose-100 flex items-center justify-center">
+              <span class="text-4xl group-hover:scale-110 transition-transform duration-300">🎓</span>
+            </div>
+            <div class="flex flex-col justify-center py-1">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">28 Apr 2026</span>
+              <h3 class="font-bold text-navy text-base leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">Persiapan Pelaksanaan Ujian Kompetensi Keahlian (UKK)</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
