@@ -13,6 +13,7 @@ Catatan konfigurasi untuk setiap deployment project ini.
 | SMKN 1 PPU | `cms-smkn1ppu` | `smkn1ppu.sch.id` | cms-smkn1ppu |
 | SMK Mutu PPU | `cms-smkmutuppu` | `smkmutuppu.sch.id` | cms-smkmutuppu |
 | SMK Muda PPU | `cms-sekolah-smkmudappu` | `smkmudappu.com` | cms-smkmudappu |
+| SMPN 2 Longkali | `cms-smpndualongkali` | `smpndualongkali.sch.id` | cms-smpndualongkali |
 
 ---
 
@@ -32,6 +33,9 @@ const key = `cms-smkmutuppu/uploads/...`
 
 // SMK Muda PPU
 const key = `cms-smkmudappu/uploads/...`
+
+// SMPN 2 Longkali
+const key = `cms-smpndualongkali/uploads/...`
 ```
 
 ### 2. Environment Variables di Vercel
@@ -58,6 +62,7 @@ Setiap project Vercel harus punya env vars sendiri:
 | SMKN 1 PPU | `postgresql://neondb_owner:npg_Vb7vZrHDJ8gK@ep-winter-morning-a1px0ua5-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
 | SMK Mutu PPU | `postgresql://neondb_owner:npg_ndcU5G2SAIzT@ep-snowy-unit-aomufodx-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
 | SMK Muda PPU | `postgresql://neondb_owner:npg_x19jsFJKqcgh@ep-odd-tooth-aof63si2-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
+| SMPN 2 Longkali | `postgresql://neondb_owner:npg_RxhBTiNb8Ay6@ep-gentle-dew-aovz3jo8.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require` |
 
 ---
 
@@ -65,10 +70,11 @@ Setiap project Vercel harus punya env vars sendiri:
 
 ```bash
 git remote -v
-# origin      https://github.com/Jem1004/cms-sekolah-v1.git         (SMPN 3 PPU)
-# smkn1ppu    https://github.com/Jem1004/cms-smkn1ppu.git           (SMKN 1 PPU)
-# smkmutuppu  https://github.com/Jem1004/cms-smkmutuppu.git         (SMK Mutu PPU)
-# smkmudappu  https://github.com/Jem1004/cms-sekolah-smkmudappu.git (SMK Muda PPU)
+# origin           https://github.com/Jem1004/cms-sekolah-v1.git         (SMPN 3 PPU)
+# smkn1ppu         https://github.com/Jem1004/cms-smkn1ppu.git           (SMKN 1 PPU)
+# smkmutuppu       https://github.com/Jem1004/cms-smkmutuppu.git         (SMK Mutu PPU)
+# smkmudappu       https://github.com/Jem1004/cms-sekolah-smkmudappu.git (SMK Muda PPU)
+# smpn2longkali    https://github.com/Jem1004/cms-smpndualongkali.git    (SMPN 2 Longkali)
 ```
 
 Push ke semua sekaligus:
@@ -77,6 +83,7 @@ git push origin main
 git push smkn1ppu main
 git push smkmutuppu main
 git push smkmudappu main
+git push smpn2longkali main
 ```
 
 ---
@@ -128,6 +135,7 @@ freelance-store/
 | SMKN 1 PPU | https://smkn1ppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkn1ppu |
 | SMK Mutu PPU | https://smkmutuppu.sch.id | https://vercel.com/jem1004s-projects/cms-smkmutuppu |
 | SMK Muda PPU | https://smkmudappu.com | https://vercel.com/jem1004s-projects/cms-smkmudappu |
+| SMPN 2 Longkali | https://smpndualongkali.sch.id | https://vercel.com/jem1004s-projects/cms-smpndualongkali |
 
 ---
 
