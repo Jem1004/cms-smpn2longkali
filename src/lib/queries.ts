@@ -61,7 +61,7 @@ async function fetchPublicMenuItems(): Promise<MenuItemWithChildren[]> {
 export const getPublicMenuItems = unstable_cache(
   fetchPublicMenuItems,
   ["public-menu-items"],
-  { tags: ["menu-items"], revalidate: 3600 }
+  { tags: ["menu-items"], revalidate: 86400 } // 24 hours - menu jarang berubah
 )
 
 // ─── Site Settings ───────────────────────────────────────────
@@ -133,7 +133,7 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
 export const getSiteSettings = unstable_cache(
   fetchSiteSettings,
   ["site-settings"],
-  { tags: ["site-settings"], revalidate: 3600 }
+  { tags: ["site-settings"], revalidate: 86400 } // 24 hours - settings jarang berubah
 )
 
 // ─── Hero Content ────────────────────────────────────────────
@@ -158,7 +158,7 @@ async function fetchHeroContent() {
 export const getHeroContent = unstable_cache(
   fetchHeroContent,
   ["hero-content"],
-  { tags: ["content-hero"], revalidate: 3600 }
+  { tags: ["content-hero"], revalidate: 86400 } // 24 hours - hero jarang berubah
 )
 
 // ─── Profile Content ─────────────────────────────────────────
@@ -183,7 +183,7 @@ async function fetchProfileContent() {
 export const getProfileContent = unstable_cache(
   fetchProfileContent,
   ["profile-content"],
-  { tags: ["content-profile"], revalidate: 3600 }
+  { tags: ["content-profile"], revalidate: 86400 } // 24 hours - profile jarang berubah
 )
 
 // ─── Principal Message ──────────────────────────────────────
@@ -208,7 +208,7 @@ async function fetchPrincipalContent() {
 export const getPrincipalContent = unstable_cache(
   fetchPrincipalContent,
   ["principal-content"],
-  { tags: ["content-principal"], revalidate: 3600 }
+  { tags: ["content-principal"], revalidate: 86400 } // 24 hours - principal message jarang berubah
 )
 
 // ─── Staff List ──────────────────────────────────────────────
@@ -233,7 +233,7 @@ async function fetchPublicStaff() {
 export const getPublicStaff = unstable_cache(
   fetchPublicStaff,
   ["public-staff"],
-  { tags: ["staff"], revalidate: 3600 }
+  { tags: ["staff"], revalidate: 86400 } // 24 hours - staff jarang berubah
 )
 
 // ─── Gallery Images ─────────────────────────────────────────
@@ -263,7 +263,7 @@ async function fetchPublicGallery() {
 export const getPublicGallery = unstable_cache(
   fetchPublicGallery,
   ["public-gallery"],
-  { tags: ["gallery"], revalidate: 3600 }
+  { tags: ["gallery"], revalidate: 86400 } // 24 hours - gallery jarang berubah
 )
 
 // ─── Latest Articles ────────────────────────────────────────
@@ -299,7 +299,7 @@ async function fetchLatestArticles() {
 export const getLatestArticles = unstable_cache(
   fetchLatestArticles,
   ["latest-articles"],
-  { tags: ["articles"], revalidate: 3600 }
+  { tags: ["articles"], revalidate: 7200 } // 2 hours - artikel baru tidak terlalu sering
 )
 
 // ─── Active Announcements ───────────────────────────────────
@@ -334,7 +334,7 @@ async function fetchActiveAnnouncements() {
 export const getActiveAnnouncementsCached = unstable_cache(
   fetchActiveAnnouncements,
   ["active-announcements"],
-  { tags: ["announcements"], revalidate: 300 } // 5 min — announcements change more often
+  { tags: ["announcements"], revalidate: 600 } // 10 min — announcements change more often
 )
 
 // ─── Upcoming Events ────────────────────────────────────────
@@ -373,5 +373,5 @@ async function fetchUpcomingEvents() {
 export const getUpcomingEventsCached = unstable_cache(
   fetchUpcomingEvents,
   ["upcoming-events"],
-  { tags: ["events"], revalidate: 300 } // 5 min — events have time sensitivity
+  { tags: ["events"], revalidate: 600 } // 10 min — events have time sensitivity
 )
